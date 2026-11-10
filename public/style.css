@@ -1,0 +1,2615 @@
+/* ═══════════════════════════════════════════════════════════════════
+   VEA v2, metallic over black.
+   Editorial layout language (oversized display type, full-bleed media,
+   hairline rules) in VEA's own materials: the Telegrama/Whois display
+   font and IBM Plex Mono (same fonts as index.html + works3.html),
+   brushed-steel texture clipped into the big type.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ONE typeface across the whole site: IBM Plex Mono. The Telegrama display
+   cut and the Oswald giant cut are both retired, every surface, from the
+   giant page titles to the mono captions, now wears the same font. (The
+   "Virtually ever after" wordmark is an image, so the brand mark is
+   untouched.) */
+
+:root{
+  --bg:        #000000;   /* pure black on every page */
+  --bg-raise:  #0D0D0C;
+  --ink:       #E9E7E2;
+  --ink-dim:   #9A9891;
+  /* WCAG AA on black: 4.9:1, the old #55534E (2.7:1) carried real
+     information (archive counts, work-detail labels) below the line */
+  --ink-faint: #7C7A74;
+  --ink-ghost: #55534E;   /* decorative-only whispers, never information */
+  --ghost:     #171716;
+  --steel:     #C7C6C2;
+  --line:      rgba(233,231,226,.16);
+  --line-hard: rgba(233,231,226,.34);
+  --metal-img: url('/assets/img/menu2.webp');
+
+  /* one font everywhere, IBM Plex Mono. --font-disp and --font-giant are
+     kept as aliases (so every existing rule still resolves) but now point
+     at the same mono stack: no Telegrama, no Oswald, one voice. */
+  --font-mono:  'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-disp:  var(--font-mono);
+  --font-giant: var(--font-mono);
+
+  --ease:      cubic-bezier(.77,0,.18,1);
+  --pad:       clamp(16px, 3vw, 44px);
+  --descend:   3.2s;        /* one shared, unhurried page-descend tempo */
+  --z-menu:    980;   /* above the lite curtain (970): its bar opens the menu */
+  --z-loader:  1000;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+/* the window scrollbar is never shown, on any page, pages scroll
+   clean-edged (inner design scrollbars like the archive rails stay) */
+html{scrollbar-width:none;}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0;}
+html,body{background:var(--bg);}
+body{
+  color:var(--ink);
+  font-family:var(--font-mono);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,video,iframe{display:block;max-width:100%;}
+/* the native mobile play arrow must never appear on our films */
+video::-webkit-media-controls-start-playback-button{display:none !important;-webkit-appearance:none;}
+/* v8 · the LAUNCH veil (#vWake) is retired, PAGE grants video playback in
+   its own tap (data.js __veaWake); no full-viewport blur gate remains. */
+a{color:inherit;text-decoration:none;cursor:pointer;}
+button{font-family:inherit;background:none;border:0;color:inherit;cursor:pointer;}
+::selection{background:var(--steel);color:#000;}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+/* a focusable sr-only element (the skip link) must become visible when a
+   keyboard user tabs to it, WCAG 2.4.7 */
+a.sr-only:focus,a.sr-only:focus-visible{position:fixed;left:12px;top:12px;z-index:2147483001;width:auto;height:auto;margin:0;padding:10px 16px;clip:auto;clip-path:none;overflow:visible;white-space:normal;background:#000;color:#fff;border:1px solid #fff;font-family:var(--font-mono,monospace);font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;}
+/* [hidden] must always win, even over author display rules
+   (e.g. .lb-bar a{display:inline-flex} used to leak hidden links) */
+[hidden]{display:none !important;}
+/* media can't be dragged out of the page (sources shouldn't be one
+   gesture away, pairs with the contextmenu/dragstart guards) */
+img,video{-webkit-user-drag:none;}
+/* page-leave curtain: a quick black descend carries every internal
+   navigation out, the destination unmasks from the top on its own */
+.leave-curtain{
+  position:fixed;inset:0;z-index:2000;background:#000;
+  pointer-events:none;
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .42s var(--ease);
+}
+.leave-curtain.on{clip-path:inset(0 0 0 0);}
+@media (max-width:860px), (pointer: coarse){
+  /* the phone's curtain matches its quicker hand-over (data.js: 240ms) */
+  .leave-curtain{transition-duration:.22s;}
+}
+
+/* ─────────────── metallic type ─────────────── */
+.metal{
+  color:var(--steel);
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,.30) 100%),
+    var(--metal-img);
+  background-size:cover, cover;
+  background-position:center, center;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+@supports not (-webkit-background-clip:text){
+  .metal{background:none;color:var(--steel);}
+}
+
+/* ─────────────── display type ─────────────── */
+.disp{
+  font-family:var(--font-disp);
+  font-weight:400;
+  line-height:.84;
+  letter-spacing:-.015em;
+  text-transform:uppercase;
+  overflow-wrap:anywhere;
+}
+.giant{font-size:clamp(3.4rem, 15.5vw, 15rem);}
+
+/* ── the giant surfaces ──
+   Page titles and the giant list rows are IBM Plex Mono like everything
+   else now (one font across the whole site); scale and 500-weight carry
+   the display drama. */
+.page-title,.g-name,.acc-title{
+  font-family:var(--font-giant);
+  font-weight:500;
+  letter-spacing:.012em;
+  line-height:.98;
+}
+
+.label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--ink-dim);
+}
+
+/* ─────────────── loader, waits for the home films (ref 12.png) ─────────────── */
+#loader{
+  position:fixed;inset:0;z-index:var(--z-loader);
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:26px;
+  transition:opacity .6s var(--ease), visibility .6s;
+}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-mark{
+  width:clamp(96px,14vw,150px);height:auto;aspect-ratio:1;
+  /* the animation lives on a light plate, invert + screen melts it into black */
+  filter:invert(1) grayscale(1) brightness(1.08);
+  mix-blend-mode:screen;
+  opacity:.92;
+}
+.loader-word{font-size:clamp(2.2rem, 7vw, 4.6rem);}
+.loader-bar{
+  width:min(320px, 60vw);height:1px;background:var(--line);
+  position:relative;overflow:hidden;
+}
+.loader-bar i{
+  position:absolute;inset:0;transform-origin:left;
+  background:var(--steel);
+  transform:scaleX(0);
+  transition:transform .3s linear;
+}
+.loader-pct{font-size:10px;letter-spacing:.3em;color:var(--ink-faint);}
+#sndT .spk{display:none;}
+/* CTRLS base opacity in CSS (not inline) so fadeChrome's restore-to-"" keeps it */
+#g3ctl,#g3look{opacity:.55;}
+/* ═══ v8 · the 3D room on a PHONE, HUD sized for thumbs ═══ */
+body.g3{overscroll-behavior:none;}
+/* the room is NOT PROSE: while a 3D room stands (and while one boots) the
+   finger paints camera moves, iOS may never answer a swipe with the
+   Copy/Look-Up bar over the salon. Selection returns with the 2D page. */
+body.g3, body.g3 *, html.spaceboot body, html.spaceboot body *, #g3boot, #g3boot *{
+  -webkit-user-select:none!important;user-select:none!important;
+  -webkit-touch-callout:none!important;
+}
+body.g3{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+@media (max-width:860px), (pointer:coarse){
+  /* the quality switch grows real touch targets (its inline dress needs !important) */
+  /* the switch is the bottom rung of the corner dock, it shares the dock's
+     right edge (12) and lands on the same 26px ladder as SOUND · CONTROLS ·
+     AUTO-LOOK (18 · 44 · 70 · 96), so the four read as one column on the phone */
+  body #g3q{font-size:9px!important;letter-spacing:.24em!important;right:calc(var(--pad) + env(safe-area-inset-right,0px))!important;bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;line-height:1!important;}
+  /* the switch's words must FIT the 118px dock box like every other rung, the
+     old fat touch padding (12px 7px + a 4px margin) pushed "space / page" clean
+     off the right edge. Keep a small vertical tap area only, no horizontal bulk. */
+  body #g3q a{display:inline-block;padding:3px 0!important;margin:0!important;vertical-align:middle;}
+  body #g3q i.qsl{display:inline-block;padding:0!important;vertical-align:middle;margin:0 3px!important;}
+  /* mobile · when the booklet reads fullscreen, its lite curtain (.vp) or
+     the archive lightbox (#lb), the space·page switch drops to the BACK so
+     it can never float over the page-curl flipbook (it sits at z 2.1e9). */
+  body:has(.vp.open) #g3q,
+  body:has(#lb.open) #g3q{z-index:1!important;pointer-events:none!important;}
+  /* the tiny speaker perches just above the switch, the GLYPH is the whole
+     toggle: OFF = filled white at 30%, ON = hollow with a 1px outline */
+  /* the bottom-right stack breathes EVENLY: mode bar (12) · speaker (46) ·
+     ctrls (80), a uniform 34px rung so no gap looks orphaned */
+  body.g3 #sndT{right:calc(10px + env(safe-area-inset-right,0px));bottom:calc(46px + env(safe-area-inset-bottom,0px));left:auto;}
+  #sndT.msnd{background:none;border:0;padding:10px;line-height:0;}
+  #sndT.msnd .rg,#sndT.msnd .lb{display:none!important;}
+  #sndT.msnd .spk{display:block;width:16px;height:16px;}
+  #sndT.msnd .spk path{fill:#fff;stroke:none;opacity:.3;transition:opacity .25s,fill .25s;}
+  #sndT.msnd.snd-on .spk path{fill:none;stroke:#fff;stroke-width:1;opacity:1;}
+  /* the room's bottom line breathes with the viewport and clears the home bar */
+  /* the room line sits ABOVE the quality switch (bottom-right), never on it */
+  /* the room's info line lives bottom-LEFT and stays out of the corner dock's
+     column (right:12, ~130px wide), centred it used to run right under
+     AUTO-LOOK / CONTROLS. Left-anchor it and cap its width so it can never reach
+     the dock. */
+  body #g3info{font-size:clamp(9px,2.6vw,11px);letter-spacing:.1em;white-space:normal;
+    left:calc(16px + env(safe-area-inset-left,0px))!important;right:auto!important;transform:none!important;
+    text-align:left!important;bottom:calc(44px + env(safe-area-inset-bottom,0px))!important;max-width:60vw!important;}
+  /* the page footer (socials) collides with the room's centre line on a
+     narrow screen, inside the 3D room the phone hides it (menu carries it) */
+  body.g3 .w-foot{display:none!important;}
+  /* the 2D page behind a running room neither paints nor plays on a phone */
+  body.g3 main{visibility:hidden!important;}
+  /* …except the CATEGORY CHIP ROW. On works.html the salon claims the chips
+     in place, still parented inside <main>, the rule above swallowed them
+     on phones (booted from any other page they are re-hung on <body> and
+     were always visible). visibility, unlike display, lets a child step
+     back out of a hidden ancestor. */
+  body.g3 .sc-cats{visibility:visible;}
+  /* the flat carousel's own swipe whisper belongs to the 2D page, inside
+     the room the hint line already speaks touch */
+  body.g3 .v7swipe{display:none!important;}
+  /* the fading one-time hint rises into the empty seam between the screen
+     band and the künye band, it may cover NOTHING, even for four seconds */
+  #v7hint{bottom:34vh;}
+  /* the travelling category bar respects the notch */
+  .sc-cats{padding-left:max(var(--pad), env(safe-area-inset-left,0px));padding-right:max(var(--pad), env(safe-area-inset-right,0px));padding-top:env(safe-area-inset-top,0px);}
+}
+.loader-note{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);}
+
+/* the page never rubber-bands into the browser's pull-to-refresh, vertical overscroll dies at the page edge (the top edge is ours) */
+html,body{overscroll-behavior:none;}
+
+/* ─────────────── top bar ─────────────── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(14px + env(safe-area-inset-top)) var(--pad) 14px;
+  mix-blend-mode:difference;
+}
+/* F13a · a soft top scrim rises ONLY on scroll, so the fixed mix-blend header
+   never rides noisily over a scrolled headline. It stays clear at the very top
+   of the page, and never appears inside a 3D room (the header owns the canvas). */
+body::before{content:'';position:fixed;left:0;right:0;top:0;height:calc(72px + env(safe-area-inset-top,0px));
+  z-index:790;pointer-events:none;opacity:0;transition:opacity .35s ease;
+  background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.32) 54%,rgba(0,0,0,0) 100%);}
+body.vscrolled::before{opacity:1;}
+body.g3::before{opacity:0!important;}
+.topbar a,.topbar button,.topbar .bar-tag{
+  font-size:18px;letter-spacing:.18em;text-transform:uppercase;
+  color:#fff;min-height:44px;display:inline-flex;align-items:center;
+}
+/* the small tag centres inside the same 44px row as MENU, so its 11px text
+   sits a few px LOWER than MENU's 18px cap-line, lift it so all three top
+   marks (tag · wordmark · MENU) start on one line. Desktop only; the tag is
+   hidden on mobile. */
+.topbar .bar-tag{cursor:default;font-size:11px;letter-spacing:.24em;position:relative;top:-4px;}
+.topbar .bar-right{display:flex;align-items:center;margin-left:auto;}
+/* BACK and MENU keep ONE home everywhere, BACK pinned left, MENU
+   pinned right, both at the overlay pair's size, whether you are on
+   the page or inside an opened pdf / site / film.
+   BACK fades away while the works UI is on screen and returns
+   as soon as you scroll back up to the piece. */
+.topbar .bar-back{
+  position:absolute;left:var(--pad);top:calc(14px + env(safe-area-inset-top));
+  transition:opacity .35s var(--ease);
+}
+.topbar .bar-back.off{opacity:0;pointer-events:none;}
+/* the work page gives its left slot to BACK, the studio tag rests */
+body.wk-page .topbar .bar-tag{display:none;}
+/* desktop: the pair reads at the overlay size */
+@media (min-width:861px){
+  .topbar a,.topbar button{font-size:28px;letter-spacing:.18em;}
+  .topbar .bar-tag{font-size:15px;letter-spacing:.22em;}
+}
+/* the wordmark is anchored to the exact centre of the viewport,
+   independent of how wide the side items are */
+.topbar .bar-logo{
+  position:absolute;left:50%;top:calc(14px + env(safe-area-inset-top));
+  transform:translateX(-50%);
+  min-height:44px;display:inline-flex;align-items:center;
+}
+.topbar .bar-logo img{height:15px;width:auto;filter:invert(1);}
+@media (min-width:861px){
+  .topbar .bar-logo img{height:22px;}
+}
+
+/* ─────────────── menu overlay ─────────────── */
+body:has(#menu.open) #g3q{z-index:calc(var(--z-menu) - 1)!important;}
+/* v8 · the open menu carries its own SPACE/PAGE choice, so the mid-right
+   "ENTER WITH SOUND" invitation stays out of its way (no overlap, no dup) */
+body:has(#menu.open) #sndT.snd-hero{opacity:0!important;pointer-events:none!important;}
+#menu{
+  position:fixed;inset:0;z-index:var(--z-menu);
+  background:rgba(0,0,0,.6);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 var(--pad);
+  opacity:0;visibility:hidden;
+  transition:opacity .45s var(--ease), visibility .45s;
+}
+#menu.open{opacity:1;visibility:visible;}
+#menu .menu-close{
+  position:absolute;top:calc(10px + env(safe-area-inset-top));right:var(--pad);
+  font-size:11px;letter-spacing:.24em;min-height:44px;min-width:44px;
+}
+.menu-link{
+  font-family:var(--font-disp);text-transform:uppercase;
+  /* v8 · half the old scale, still fluid so it self-fits every laptop width */
+  font-size:clamp(1.35rem, 4.6vw, 3.4rem);line-height:1.08;
+  color:var(--ink);
+  display:flex;align-items:baseline;gap:13px;
+  padding:3px 0;
+  transform:translateY(24px);opacity:0;
+  transition:transform .6s var(--ease), opacity .6s var(--ease), color .3s;
+}
+#menu.open .menu-link{transform:none;opacity:1;}
+#menu.open .menu-link:nth-child(2){transition-delay:.05s;}
+#menu.open .menu-link:nth-child(3){transition-delay:.1s;}
+#menu.open .menu-link:nth-child(4){transition-delay:.15s;}
+#menu.open .menu-link:nth-child(5){transition-delay:.2s;}
+.menu-link em{font-family:var(--font-mono);font-style:normal;font-size:11px;letter-spacing:.24em;color:var(--ink-faint);}
+.menu-link:hover{color:transparent;-webkit-text-stroke:1px var(--steel);}
+/* ── nav taglines: on a pointer, the hovered item's description appears in ONE
+   fixed zone at the BOTTOM of the overlay (only one is ever visible at a time).
+   On touch there is no hover, so they are hidden entirely and the menu is its
+   plain self. ── */
+.menu-say{
+  position:fixed;left:var(--pad);right:var(--pad);
+  bottom:calc(46px + env(safe-area-inset-bottom));
+  font-family:var(--font-mono);font-weight:400;text-transform:none;-webkit-text-stroke:0;
+  font-size:clamp(.78rem,1vw,.95rem);letter-spacing:.02em;line-height:1.4;
+  color:var(--ink-dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;   /* v8 · one line, never wraps */
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+}
+.menu-link:hover .menu-say,.menu-link:focus-visible .menu-say,
+.menu-cta:hover .menu-say,.menu-cta:focus-visible .menu-say{opacity:1;}
+@media (hover:none){ .menu-say{display:none;} }
+
+/* ─────────────── hero (ref 1.png) ─────────────── */
+.hero{
+  position:relative;
+  min-height:100svh;
+  min-height:100dvh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;
+  border-bottom:1px solid var(--line-hard);
+}
+.hero-media{position:absolute;inset:0;}
+.hero-media video,.hero-media img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.35) brightness(.62) contrast(1.05);
+}
+.hero-shade{display:none;}   /* the film runs clean, no bottom fade */
+.hero-mark{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-62%);
+  width:clamp(120px, 17vw, 210px);aspect-ratio:1;
+  filter:invert(1) grayscale(1) brightness(1.08);
+  mix-blend-mode:screen;
+  opacity:.9;
+}
+.hero-title{
+  position:relative;z-index:2;
+  padding:0 8px;
+  text-align:center;
+  transform:translateY(.08em);
+}
+.hero-title .line{display:block;}
+.hero-tag{
+  /* one line up off the bottom edge so it clears the space / page switch
+     that sits in the corner */
+  position:absolute;z-index:2;bottom:calc(46px + env(safe-area-inset-bottom));
+  left:var(--pad);right:var(--pad);
+  display:flex;justify-content:flex-end;gap:16px;
+  font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-dim);
+}
+/* the whole hero is a link when the sheet's "page" column names a work */
+.hero-go{position:absolute;inset:0;z-index:3;display:block;}
+
+.clip{overflow:hidden;display:block;}
+.clip > span{display:block;transform:translateY(110%);transition:transform .9s var(--ease);}
+.on .clip > span{transform:none;}
+
+/* ─────────────── intro strip ─────────────── */
+.intro{
+  padding:clamp(60px,9vw,130px) var(--pad);
+  max-width:1080px;
+}
+.intro p{
+  font-family:var(--font-mono);
+  font-size:clamp(1rem, 1.8vw, 1.45rem);
+  line-height:1.75;color:var(--ink);
+}
+.intro p em{font-style:normal;color:var(--ink-dim);}
+.intro .label{display:block;margin-bottom:26px;}
+/* the differentiator paragraph, the slogan reads BRIGHT (not dimmed like
+   the soft em above), so "architects who design and build" is the line the
+   eye lands on */
+.intro-thesis{margin-top:1.35em;}
+.intro-thesis em{color:var(--ink);font-style:normal;font-weight:500;}
+
+/* ─────────────── featured works (ref 2.png) ───────────────
+   Full-bleed film blocks. The stage scales up from a small box as it
+   scrolls into view (JS sets --grow 0→1); the title sits INSIDE the
+   film at the bottom, inverted against the picture via blend mode,
+   and the description follows underneath in normal flow.            */
+.feat{
+  padding:clamp(46px,7vw,100px) 0 0;
+}
+/* client name + index + year: a small row printed ON the film, no hover */
+.feat-meta{
+  position:absolute;top:3%;left:0;right:0;z-index:2;
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:0 4%;
+  pointer-events:none;
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:#fff;mix-blend-mode:difference;
+}
+.feat-meta .feat-client{flex:1;text-align:center;letter-spacing:.3em;}
+.feat-stage{
+  --grow:0;
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  max-height:100svh;
+  max-height:100dvh;
+  overflow:hidden;
+  background:#000;
+  transform:scale(calc(.58 + .42 * var(--grow)));
+  transform-origin:center center;
+  will-change:transform;
+}
+.feat-stage video,.feat-stage img,.feat-stage iframe{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;
+}
+.feat-title{
+  position:absolute;left:50%;bottom:4%;z-index:3;
+  transform:translateX(-50%);
+  max-width:94%;
+  text-align:center;
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1rem, 2.8vw, 2.4rem);
+  line-height:.95;letter-spacing:.04em;
+  color:#fff;
+  mix-blend-mode:difference;   /* the editorial invert against the film */
+  /* hover lives ONLY on the words, not the whole film */
+  pointer-events:auto;
+  transition:letter-spacing .45s var(--ease);
+}
+.feat-title:hover{letter-spacing:.16em;}   /* like all-works: tracking opens up */
+/* caption ON the film: title with its subtitle paragraphs right under
+   it, at the very bottom, inverted against the footage */
+.feat-cap{
+  position:absolute;left:50%;bottom:4%;z-index:3;
+  transform:translateX(-50%);
+  width:min(760px, 92%);
+  text-align:center;
+  color:#fff;mix-blend-mode:difference;
+  pointer-events:none;
+}
+.feat-cap .feat-title{
+  position:static;left:auto;bottom:auto;transform:none;max-width:none;
+  pointer-events:auto;
+}
+.feat-sub{
+  margin-top:14px;
+  font-family:var(--font-mono);
+  font-size:13px;line-height:1.7;color:#fff;
+}
+.feat-sub p + p{margin-top:.8em;}   /* sheet subtitles may run several paragraphs */
+a.feat-link{display:block;}
+
+/* all-works CTA */
+.allworks{
+  display:flex;align-items:center;justify-content:center;
+  border-top:1px solid var(--line);
+  margin-top:clamp(60px,9vw,120px);
+  padding:clamp(60px,9vw,120px) var(--pad);
+}
+.allworks a{display:inline-block;text-align:center;}
+.allworks .disp{font-size:clamp(1.8rem, 6.3vw, 5.6rem);transition:letter-spacing .5s var(--ease);}
+.allworks a:hover .disp{letter-spacing:.02em;}
+.allworks .label{display:block;margin-top:18px;}
+
+/* ─────────────── fixed bottom bar (works3-style, no footer block) ─────────────── */
+main{padding-bottom:56px;}
+.w-foot{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;pointer-events:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px max(10px,env(safe-area-inset-bottom)) 18px;
+  mix-blend-mode:difference;
+}
+.foot-left,.foot-right{display:flex;align-items:center;gap:14px;flex:0 0 auto;pointer-events:auto;}
+.foot-link{
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#fff;
+  opacity:.55;transition:opacity .2s;white-space:nowrap;
+  display:inline-flex;align-items:center;min-height:32px;
+}
+.foot-link:hover{opacity:1;}
+.foot-ico{display:none;}                 /* desktop shows the text label */
+.foot-flag{height:11px;width:auto;display:inline-block;object-fit:contain;user-select:none;}
+@media (max-width:760px){
+  .foot-flag,.foot-right,.foot-txt{display:none;}
+  .foot-ico{display:inline-block;width:19px;height:19px;}
+  .foot-link{opacity:.7;}
+}
+/* ── fixed-footer discipline on scrolling list pages ──
+   The difference-blend foot used to invert straight over the last list
+   rows (archive), text on text, both unreadable. The list pages end
+   with a clearance strip, and on the archive the foot rides a soft
+   black fade instead of blending with whatever row scrolls beneath. */
+body.arch-body main,
+body.abt-body main,
+body.about-body main{
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+}
+body.arch-body .w-foot{
+  mix-blend-mode:normal;
+  padding-top:30px;
+  background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.92) 58%);
+}
+/* ── about: desktop composes as one centred block ──
+   Three top-anchored rows over a 60% void read as an unfilled canvas;
+   centring the title + rows splits the dark evenly, the way the mobile
+   layout already composes. Rows breathe a little taller on the way. */
+@media (min-width:861px){
+  /* the tabs anchor to the TOP and never move: switching About ⇄ Services
+     changes the panel below, never the header's place (it used to centre
+     the whole block, so a taller panel shifted the tabs up/down) */
+  body.abt-body main{
+    min-height:100svh;
+    display:flex;flex-direction:column;justify-content:flex-start;
+    padding-top:calc(clamp(36px,5svh,56px) + env(safe-area-inset-top));
+  }
+  /* NO desktop size/padding bump, About AND Services accordion titles use
+     the base .acc-title rule (clamp(1.5rem,4.4vw,3.2rem)), exactly like
+     v3/about.html: parametric with the viewport, 3.2rem the MAX. The old
+     override pushed it to 3.8rem, which read "too big" against the mono. */
+}
+
+/* ─────────────── works index page, smart clustered index ───────────────
+   Same logic as works3: the list is an index of GROUPS (categories or
+   clients). One group opens at a time and reveals its works as a rail
+   of cards, with filter chips. Individual media never float alone.     */
+.works-head{
+  padding:calc(clamp(56px,7svh,80px) + env(safe-area-inset-top)) var(--pad) clamp(16px,2.2vw,32px);
+  border-bottom:1px solid var(--line-hard);
+}
+.page-title{font-size:clamp(1.4rem, 3.85vw, 3.2rem);}
+.works-head .view-switch{margin-top:clamp(14px,2vw,24px);}
+.view-switch{display:flex;gap:6px;align-items:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;}
+.view-switch button{
+  color:var(--ink-faint);padding:10px 6px;min-height:44px;letter-spacing:inherit;
+  transition:color .25s;
+}
+.view-switch button[aria-selected="true"]{color:var(--ink);text-decoration:underline;text-underline-offset:6px;}
+.view-switch .sep{color:var(--ink-faint);}
+
+.group{border-bottom:1px solid var(--line);}
+.group-head{
+  display:flex;align-items:baseline;gap:clamp(14px,2.4vw,30px);
+  width:100%;text-align:left;
+  padding:clamp(18px,3vw,34px) var(--pad);
+  transition:background-color .3s var(--ease);
+}
+.group-head:hover{background:var(--bg-raise);}
+.group-head .g-name{
+  flex:1;
+  font-family:var(--font-giant);font-weight:500;text-transform:uppercase;line-height:.98;
+  font-size:clamp(1.2rem, 3.8vw, 3.1rem);
+  letter-spacing:.012em;
+  transition:color .3s;
+}
+.group.open .group-head .g-name,
+.group-head:hover .g-name{color:transparent;-webkit-text-stroke:1px var(--steel);}
+.group-head .g-count{font-size:11px;letter-spacing:.2em;color:var(--ink-faint);}
+.group-head .g-ind{
+  font-family:var(--font-mono);font-size:18px;color:var(--ink-dim);
+  transition:transform .4s var(--ease);
+}
+.group.open .g-ind{transform:rotate(45deg);}
+
+.group-body{
+  overflow:hidden;
+  max-height:0;
+  transition:max-height .65s var(--ease);
+}
+.chips{
+  display:flex;flex-wrap:wrap;gap:8px;
+  padding:6px var(--pad) 16px;
+}
+.chips .dim-gap{width:100%;height:0;}
+.tag-chip{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-dim);
+  border:1px solid var(--line);
+  padding:8px 14px;min-height:34px;
+  transition:all .25s;
+}
+.tag-chip:hover{border-color:var(--line-hard);color:var(--ink);}
+.tag-chip.active{
+  background:var(--metal-img) center/cover;
+  color:#0A0A09;border-color:transparent;
+}
+.rail{
+  display:flex;gap:14px;
+  overflow-x:auto;
+  padding:4px var(--pad) clamp(26px,4vw,44px);
+  scroll-snap-type:x proximity;
+}
+/* scrollbars belong to the design: hairline track, steel thumb */
+.rail,.rel-grid,.pdf-reader,.lb-stage .pdf-reader{
+  scrollbar-width:thin;
+  scrollbar-color:#8F8E8A rgba(233,231,226,.07);
+}
+.rail::-webkit-scrollbar,.rel-grid::-webkit-scrollbar{height:4px;}
+.pdf-reader::-webkit-scrollbar{width:4px;}
+.rail::-webkit-scrollbar-track,.rel-grid::-webkit-scrollbar-track,
+.pdf-reader::-webkit-scrollbar-track{background:rgba(233,231,226,.07);}
+.rail::-webkit-scrollbar-thumb,.rel-grid::-webkit-scrollbar-thumb,
+.pdf-reader::-webkit-scrollbar-thumb{
+  background:linear-gradient(90deg,#7d7c78,#D6D5D1 45%,#7d7c78);
+}
+.pdf-reader::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,#7d7c78,#D6D5D1 45%,#7d7c78);
+}
+.card{
+  flex:0 0 min(340px, 80vw);
+  scroll-snap-align:start;
+  border:1px solid var(--line);
+  transition:border-color .3s;
+}
+.card:hover{border-color:var(--line-hard);}
+.card-poster{
+  position:relative;aspect-ratio:16/10;background:#000;overflow:hidden;
+}
+.card-poster video,.card-poster img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.3) brightness(.85);
+  transition:filter .4s, transform .6s var(--ease);
+}
+.card:hover .card-poster video,.card:hover .card-poster img{
+  filter:none;transform:scale(1.04);
+}
+.card-kind{
+  position:absolute;top:10px;left:10px;z-index:2;
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:#fff;mix-blend-mode:difference;
+  /* the difference-invert stays, a whisper of white glow behind the
+     letters just keeps them readable on busy footage */
+  text-shadow:0 0 7px rgba(255,255,255,.35);
+}
+/* works3-style card controls: inline play + enlarge-to-big-screen */
+.card-chip{
+  position:absolute;z-index:3;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:#fff;mix-blend-mode:difference;
+  border:1px solid rgba(255,255,255,.55);
+  padding:7px 10px;min-height:30px;
+  /* the invert effect stays untouched, a faint white fill inside the
+     button plus a tiny white halo behind it lifts it off the media */
+  background:rgba(255,255,255,.16);
+  box-shadow:0 0 10px rgba(255,255,255,.22);
+  text-shadow:0 0 6px rgba(255,255,255,.35);
+  transition:background-color .25s;
+}
+.card-chip:hover{background:rgba(255,255,255,.32);}
+.chip-play{left:10px;bottom:10px;}
+.chip-zoom{right:10px;bottom:10px;}
+.card-cap{
+  display:flex;justify-content:space-between;gap:10px;align-items:baseline;
+  padding:12px 14px;
+}
+.card-cap .c-title{
+  font-family:var(--font-disp);text-transform:uppercase;font-size:15px;line-height:1.15;
+}
+.card-cap .c-year{font-size:10px;letter-spacing:.18em;color:var(--ink-faint);white-space:nowrap;}
+.card .c-desc{
+  padding:0 14px 14px;
+  font-size:11px;line-height:1.5;color:var(--ink-dim);
+  /* nothing gets cut off: long captions scroll inside their own box
+     on a hairline track, every description stays fully reachable */
+  max-height:84px;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#8F8E8A rgba(233,231,226,.07);
+}
+.card .c-desc::-webkit-scrollbar{width:3px;}
+.card .c-desc::-webkit-scrollbar-track{background:rgba(233,231,226,.07);}
+.card .c-desc::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#7d7c78,#D6D5D1 45%,#7d7c78);}
+.works-status{padding:120px var(--pad);text-align:center;color:var(--ink-dim);letter-spacing:.2em;text-transform:uppercase;font-size:11px;}
+
+/* ─────────────── project page ───────────────
+   Opens on the work itself: the first media, full screen, title
+   inverted at the bottom (ref 11 hierarchy, v2 treatment).          */
+.proj-top{
+  position:relative;
+  height:100svh;
+  height:100dvh;
+  overflow:hidden;
+  background:var(--bg);   /* letterbox blends into the page, no rectangle */
+}
+/* nothing gets cropped in the banner: portrait films letterbox on black */
+.proj-top video,.proj-top iframe,.proj-top img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border:0;
+}
+.proj-top iframe{object-fit:unset;}
+.proj-top .pt-shade{
+  position:absolute;left:0;right:0;bottom:0;height:38%;
+  background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.45));
+  pointer-events:none;
+}
+.pt-title{
+  position:absolute;left:0;right:0;bottom:3%;z-index:3;
+  text-align:center;padding:0 3%;
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1.6rem, 4.6vw, 4rem);
+  line-height:.92;color:#fff;
+  mix-blend-mode:difference;
+  pointer-events:none;
+}
+.pt-meta{
+  position:absolute;top:calc(64px + env(safe-area-inset-top));left:0;right:0;z-index:3;
+  display:flex;justify-content:space-between;gap:14px;
+  padding:0 var(--pad);
+  font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+  color:#fff;mix-blend-mode:difference;
+}
+/* a PDF opened from works is READ right here in the banner */
+.pt-reader-wrap{
+  position:absolute;inset:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  padding:calc(72px + env(safe-area-inset-top)) var(--pad) 96px;
+}
+.pt-reader{width:min(760px,100%);height:100%;}
+
+.pt-launch{
+  position:absolute;inset:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+}
+.pt-launch span{
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.5);color:#fff;
+  padding:16px 26px;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  /* same gentle lift as the card chips */
+  background:rgba(255,255,255,.16);
+  box-shadow:0 0 10px rgba(255,255,255,.22);
+  text-shadow:0 0 6px rgba(255,255,255,.35);
+  transition:background-color .3s,color .3s;
+}
+.pt-launch:hover span{background:#fff;color:#000;}
+
+.proj-body{max-width:1200px;margin:0 auto;padding:clamp(50px,7vw,100px) var(--pad);}
+.proj-about{
+  display:grid;grid-template-columns:1fr min(680px,100%) 1fr;
+  margin-bottom:clamp(46px,6vw,80px);
+}
+.proj-about .label{grid-column:2;margin-bottom:20px;text-align:center;}
+.proj-about p{
+  grid-column:2;text-align:center;
+  font-family:var(--font-mono);
+  font-size:clamp(.95rem, 1.6vw, 1.2rem);line-height:1.8;
+}
+.proj-media{display:grid;gap:clamp(20px,3vw,40px);}
+.media-slot{position:relative;background:#000;border:1px solid var(--line);overflow:hidden;}
+.media-slot.ratio{aspect-ratio:16/9;}
+.media-slot video,.media-slot iframe,.media-slot img{
+  position:absolute;inset:0;width:100%;height:100%;border:0;
+}
+.media-slot video,.media-slot img{object-fit:cover;}
+.media-slot.tall{aspect-ratio:3/4;max-width:760px;margin:0 auto;width:100%;}
+/* website exhibit (work.html mobile): the live site runs in a tall slot
+   the visitor drives directly, the page keeps scrolling around it */
+.media-slot.web-live{height:74svh;}
+/* a live html PREVIEW inside a Launch slot only looks alive, the tap
+   stays with the link around it */
+.prev-live{pointer-events:none;}
+/* fit: the media keeps its own shape and takes as much of one screen as
+   fits, no frame, no background rectangle, it just sits on the page */
+.media-slot.fit{
+  display:flex;align-items:center;justify-content:center;
+  min-height:34svh;
+  background:transparent;border:0;
+}
+.media-slot.fit video,.media-slot.fit img{
+  position:static;width:auto;height:auto;
+  max-width:100%;max-height:86svh;
+  object-fit:contain;
+}
+.media-note{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  margin-top:10px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint);
+}
+.media-note a{color:var(--ink-dim);min-height:44px;display:inline-flex;align-items:center;}
+.media-note a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px;}
+
+/* ─────────────── PDF via canvas (works3-style, no downloads) ─────────────── */
+.pdf-cover{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:hidden;background:#101010;}
+.pdf-cover canvas,.pdf-cover img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.pt-pdfcover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#101010;overflow:hidden;}
+.pt-pdfcover canvas,.pt-pdfcover img{width:auto;height:100%;max-width:100%;object-fit:contain;}
+.pdf-reader{
+  max-width:820px;margin:0 auto;width:100%;
+  max-height:88svh;overflow-y:auto;
+  border:1px solid var(--line);
+  background:#101010;
+  scrollbar-width:thin;
+}
+.pdf-reader .pdf-page{width:100%;background:#161616;}
+.pdf-reader .pdf-page + .pdf-page{margin-top:6px;}
+.pdf-reader .pdf-page canvas{width:100%;height:auto;display:block;}
+.pdf-loading{
+  display:flex;align-items:center;justify-content:center;
+  min-height:200px;
+  font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);
+}
+
+/* client page: every work of the client, in sheet order */
+.work-sec{
+  border-top:1px solid var(--line);
+  padding-top:clamp(30px,4vw,54px);
+  margin-top:clamp(34px,5vw,64px);
+}
+.work-sec:first-of-type{border-top:0;margin-top:0;padding-top:0;}
+.ws-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  margin-bottom:6px;
+}
+.ws-head .ws-no{font-size:11px;letter-spacing:.24em;color:var(--ink-faint);}
+.ws-head .ws-title{
+  flex:1;
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1.2rem, 2.8vw, 2.2rem);line-height:1;
+}
+.ws-head .ws-meta{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;}
+.ws-desc{
+  max-width:68ch;
+  font-size:13px;color:var(--ink-dim);
+  margin-bottom:clamp(16px,2.4vw,26px);
+}
+.work-sec .proj-media{margin-top:10px;}
+
+/* ghost word field (ref 11.png), now a band between media and closing */
+.cloud-band{
+  position:relative;
+  padding:clamp(50px,8vw,110px) var(--pad);
+  border-top:1px solid var(--line);
+  overflow:hidden;
+}
+.cloud-band .cloud{
+  display:flex;flex-wrap:wrap;column-gap:5vw;row-gap:14px;
+  justify-content:space-between;align-items:baseline;
+  pointer-events:none;user-select:none;
+}
+.cloud span{
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1.5rem, 4.6vw, 4rem);
+  line-height:1.1;color:var(--ghost);
+}
+
+/* closing band = the studio's services, plain and factual */
+.proj-close{
+  text-align:center;
+  padding:clamp(60px,9vw,130px) var(--pad);
+  border-top:1px solid var(--line);
+}
+.proj-close .label{display:block;margin-bottom:26px;}
+.svc-list{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  column-gap:clamp(18px,3vw,44px);row-gap:10px;
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1rem, 2.2vw, 1.7rem);line-height:1.2;
+  color:var(--ink);
+}
+.svc-list span{white-space:nowrap;}
+.proj-nav{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--line);
+}
+.proj-nav a{
+  padding:clamp(28px,4vw,50px) var(--pad);
+  display:flex;flex-direction:column;gap:12px;
+  transition:background-color .3s;
+}
+.proj-nav a:hover{background:var(--bg-raise);}
+.proj-nav a + a{border-left:1px solid var(--line);text-align:right;align-items:flex-end;}
+.proj-nav .disp{font-size:clamp(.9rem,2.4vw,1.8rem);}
+
+.related{border-top:1px solid var(--line);padding:clamp(40px,6vw,80px) var(--pad);}
+.related .label{display:block;margin-bottom:24px;}
+.rel-grid{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(200px,260px);
+  gap:14px;overflow-x:auto;padding-bottom:10px;
+  scrollbar-width:thin;
+}
+.rel-card{border:1px solid var(--line);transition:border-color .3s;}
+.rel-card:hover{border-color:var(--line-hard);}
+.rel-card .rel-thumb{aspect-ratio:4/3;background:#000 center/cover;filter:grayscale(.4) brightness(.8);}
+.rel-card figcaption{padding:12px 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);}
+
+/* ─────────────── big screen (lightbox, works3 behaviour) ───────────────
+   Media is always CONTAINED, nothing is ever cropped to fit.          */
+#lb{
+  position:fixed;inset:0;z-index:950;
+  background:rgba(0,0,0,.94);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  display:none;flex-direction:column;
+}
+#lb.open{display:flex;}
+.lb-bar{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:calc(12px + env(safe-area-inset-top)) var(--pad) 12px;
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);
+}
+.lb-bar a{color:var(--ink-dim);min-height:44px;display:inline-flex;align-items:center;}
+.lb-bar a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px;}
+.lb-bar button{min-height:44px;min-width:44px;letter-spacing:.24em;font-size:11px;color:var(--ink);}
+.lb-stage{
+  flex:1;min-height:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 var(--pad) calc(20px + env(safe-area-inset-bottom));
+}
+.lb-stage video,.lb-stage img{
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+}
+.lb-stage iframe{width:min(1200px,100%);height:100%;border:0;}
+.lb-stage .pdf-reader{width:min(820px,100%);max-height:100%;}
+
+/* ─────────────── about page ─────────────── */
+.about-sec{
+  border-bottom:1px solid var(--line);
+  padding:clamp(50px,8vw,110px) var(--pad);
+  display:grid;
+  grid-template-columns:minmax(90px,220px) minmax(0,1fr);
+  gap:clamp(20px,4vw,60px);
+}
+.about-sec .sec-no{font-size:11px;letter-spacing:.24em;color:var(--ink-faint);}
+.about-sec h2{
+  font-family:var(--font-disp);text-transform:uppercase;font-weight:400;
+  font-size:clamp(1.6rem, 4.6vw, 3.6rem);line-height:.95;
+  margin-bottom:clamp(18px,3vw,34px);
+}
+.about-sec p{
+  max-width:72ch;
+  font-size:clamp(.95rem, 1.5vw, 1.1rem);line-height:1.85;
+}
+.about-sec p + p{margin-top:1.2em;}
+.about-sec p em{font-style:normal;color:var(--ink-dim);}
+.about-sig{margin-top:1.6em;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);}
+.contact-list{display:flex;flex-direction:column;gap:6px;}
+.contact-list a{
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(.9rem, 2.4vw, 1.8rem);line-height:1.15;
+  display:inline-flex;align-items:center;min-height:44px;
+  width:fit-content;
+  transition:color .3s;
+}
+.contact-list a:hover{color:transparent;-webkit-text-stroke:1px var(--steel);}
+.contact-list .label{margin-top:18px;}
+.contact-list a.small-link{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
+  color:var(--ink-faint);min-height:34px;
+}
+.contact-list a.small-link:hover{color:var(--ink-dim);-webkit-text-stroke:0;text-decoration:underline;text-underline-offset:5px;}
+
+/* about accordion, sections open on click, like the live about page */
+.acc{border-bottom:1px solid var(--line);}
+/* the accordion title is a real heading for the document outline; the
+   wrapper carries no box and no type of its own, so nothing moves */
+.acc-h{margin:0;padding:0;font:inherit;font-weight:inherit;display:block;}
+.acc-head{
+  display:flex;align-items:baseline;gap:clamp(14px,2.4vw,30px);
+  width:100%;text-align:left;
+  padding:clamp(16px,2.6vw,28px) var(--pad);
+  transition:background-color .3s var(--ease);
+}
+.acc-head:hover{background:var(--bg-raise);}
+.acc-head .acc-no{font-size:11px;letter-spacing:.24em;color:var(--ink-faint);}
+.acc-head .acc-title{
+  flex:1;
+  font-family:var(--font-giant);font-weight:500;text-transform:uppercase;line-height:.98;
+  font-size:clamp(1.05rem, 3.1vw, 2.25rem);letter-spacing:.012em;
+  transition:color .3s;
+}
+.acc.open .acc-title,.acc-head:hover .acc-title{color:transparent;-webkit-text-stroke:1px var(--steel);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .6s var(--ease);}
+.acc-inner{padding:6px var(--pad) clamp(30px,5vw,56px);}
+.acc-inner p{
+  max-width:72ch;
+  font-size:clamp(.8rem, .95vw, .95rem);line-height:1.8;
+}
+.acc-inner p + p{margin-top:1.2em;}
+.acc-inner p em{font-style:normal;color:var(--ink-dim);}
+.acc-story{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(220px,360px);
+  gap:clamp(20px,4vw,60px);
+  align-items:start;
+}
+.about-img img{
+  position:sticky;top:90px;
+  width:100%;height:auto;
+  border:1px solid var(--line);
+  filter:grayscale(.15);
+}
+@media (max-width:900px){
+  .acc-story{grid-template-columns:1fr;}
+  .about-img{max-width:420px;}
+}
+/* ═══ ABOUT ⇄ SERVICES tabs (flat about page) ═══ */
+.abt-tabs{display:flex;align-items:baseline;justify-content:space-between;gap:16px;width:100%;}
+/* the inactive tab (usually SERVICES) reads as an AVAILABLE destination,
+   not a disabled ghost, .62 ink, lifting to near-full on hover */
+.abt-tab{background:none;border:0;padding:0;margin:0;cursor:pointer;font:inherit;line-height:.95;
+  color:inherit;opacity:.62;transition:opacity .45s var(--ease);}
+.abt-tab .disp{font-size:clamp(1.4rem,3.85vw,3.2rem);display:block;}
+.abt-tab:hover{opacity:.9;}
+.abt-tab.is-on{opacity:1;}
+.abt-tab.is-on .disp{text-decoration:underline;text-underline-offset:.14em;text-decoration-thickness:1px;}
+.abt-panel[hidden]{display:none;}
+/* the service accordions' inner content, plain, text-first, like about
+   (abs- prefix: the site already owns a different .svc-list on work pages) */
+.abs-lead{color:var(--ink-dim);margin-bottom:1.5em!important;max-width:60ch;}
+.abs-list{display:flex;flex-direction:column;}
+.abs-item{padding:1.1em 0;}
+.abs-item:first-child{padding-top:.2em;}
+.abs-item + .abs-item{border-top:1px solid var(--line);}
+.abs-item h4{font-family:var(--disp);font-weight:400;font-size:clamp(.85rem,1.5vw,1.15rem);
+  line-height:1.1;margin:0 0 .5em;display:flex;gap:.9em;align-items:baseline;text-transform:none;}
+.abs-item h4 .no{font-family:var(--font-mono,monospace);font-size:10px;letter-spacing:.24em;
+  color:var(--ink-faint);flex:none;}
+.abs-item p{margin:0;max-width:62ch;text-transform:none;}
+.abs-links{margin-top:.8em;display:flex;flex-wrap:wrap;gap:.35em 1.5em;
+  font-family:var(--font-mono,monospace);font-size:11px;letter-spacing:.06em;}
+.abs-links a{color:var(--ink-dim);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:var(--line-hard);}
+.abs-links a:hover{color:var(--ink);text-decoration-color:currentColor;}
+.abs-start{padding:clamp(28px,5vw,54px) var(--pad);border-top:1px solid var(--line-hard);}
+.abs-start .label{display:block;font-family:var(--font-mono,monospace);font-size:10px;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;}
+.abs-start p{max-width:52ch;margin:0 0 1.1em;}
+/* ── ON HOLD (istek üzerine, R14): What-we-do altındaki referans linkleri ve
+   "Start a project" bloğu ŞİMDİLİK gizli, markup, stiller ve linkler altta
+   aynen duruyor. Geri açmak = bu iki satırı silmek. İleride koymak istersen
+   hazır bekleyenler: hizmet başına kanıt linkleri (works?cat=…, project?w=…,
+   dış siteler) + mail CTA'ları ve iletişim bloklu kapanış. ── */
+#panel-services .abs-links{display:none;}
+#panel-services .abs-start{display:none;}
+@media (max-width:640px){
+  .abt-tab .disp{font-size:1.35rem;}
+}
+@media (max-width:760px){
+  .about-sec{grid-template-columns:1fr;gap:14px;}
+}
+
+/* ─────────────── showcase Works: category tabs + two-row thumb grid ─────────────── */
+.sc-cats{
+  display:flex;justify-content:center;align-items:baseline;
+  gap:clamp(12px,3vw,44px);flex-wrap:wrap;
+  padding:calc(84px + env(safe-area-inset-top)) var(--pad) 4px;
+}
+.sc-cat{
+  font-family:var(--font-mono);
+  font-size:clamp(.85rem, 1.5vw, 1.3rem);
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-faint);
+  padding:10px 2px;min-height:44px;
+  transition:color .25s, letter-spacing .35s var(--ease);
+}
+.sc-cat:hover{color:var(--ink-dim);}
+.sc-cat[aria-selected="true"]{color:var(--ink);letter-spacing:.3em;}
+/* a nave swap is walking: the bar shows the chosen chip already lit and
+   stops taking clicks until the new hall has grown back */
+.sc-cats.sc-busy{pointer-events:none;}
+.sc-thumb{
+  aspect-ratio:3/4;
+  background:#101010;
+  overflow:hidden;
+}
+/* plain presentation: no dimming, no zoom, no effects on the pieces */
+.sc-thumb img,.sc-thumb video{
+  width:100%;height:100%;object-fit:cover;
+}
+.sc-cap{
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  margin-top:9px;
+  font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+}
+.sc-cap .cap-client{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:38%;}
+.sc-cap .cap-name{flex:1;text-align:center;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sc-cap .cap-meta{color:var(--ink-faint);white-space:nowrap;text-align:right;}
+.sc-status{padding:90px var(--pad);text-align:center;color:var(--ink-dim);letter-spacing:.2em;text-transform:uppercase;font-size:11px;}
+
+/* the works UI is a fixed screen on every device, it never scrolls down */
+body.sc-body{overflow:hidden;}
+main.sc-main{height:100svh;height:100dvh;position:relative;padding-bottom:0;}
+
+/* ── desktop: two editorial strips, no scroll, everything fits the screen.
+      Sizes and vertical offsets vary per piece (--sz / --off, set by JS),
+      captions appear under a piece only while the mouse is on it.        */
+@media (min-width:861px){
+  main.sc-main{display:flex;flex-direction:column;}
+  .sc-main .sc-cats{flex:0 0 auto;}
+  .sc-stage{
+    flex:1;min-height:0;
+    display:flex;flex-direction:column;
+    padding:clamp(10px,2vh,30px) var(--pad) 120px;   /* generous text zone below */
+  }
+  .sc-row{
+    flex:1;min-height:0;
+    display:flex;align-items:center;justify-content:center;
+    gap:64px;                                  /* controlled, fixed rhythm */
+  }
+  /* single-row mode breathes: smaller pieces, much wider fixed gaps */
+  .sc-stage.single .sc-row{gap:150px;}
+  .sc-row[hidden]{display:none;}
+  .sc-item{
+    flex:0 0 auto;height:100%;
+    display:flex;align-items:center;
+    transition:transform .5s var(--ease);
+    will-change:transform;
+  }
+  /* category / page transitions: everything collapses to its own centre */
+  .sc-stage.closing .sc-item{transform:scale(0);}
+  .sc-item.enter{transform:scale(0);}
+  .sc-box{position:relative;display:block;height:calc(var(--sz,76) * var(--fit,1) * 1%);}
+  .sc-box .sc-thumb{display:block;height:100%;width:auto;}
+  .sc-cap{display:none;}   /* desktop: info lives in the fixed bottom line */
+}
+
+/* tiny loading pulse shown while the next category's first frames arrive */
+.sc-wait{
+  position:fixed;left:50%;top:52%;transform:translate(-50%,-50%);z-index:60;
+  display:none;
+}
+.sc-wait.on{display:block;}
+.sc-wait i{
+  display:block;width:110px;height:1px;background:var(--line);
+  position:relative;overflow:hidden;
+}
+.sc-wait i::after{
+  content:'';position:absolute;top:0;bottom:0;left:-40%;width:40%;
+  background:var(--steel);
+  animation:scwait .9s linear infinite;
+}
+@keyframes scwait{to{left:100%;}}
+
+/* hover info line, one designated area at the bottom of the page:
+   client left, name centre, venue + date right (desktop only) */
+.sc-info{display:none;}
+@media (min-width:861px){
+  /* equal flanking columns pin the TITLE to the exact screen centre, it can never drift no matter how long the side texts are */
+  .sc-info{
+    position:fixed;left:0;right:0;bottom:48px;z-index:70;
+    display:grid;grid-template-columns:1fr auto 1fr;
+    align-items:baseline;column-gap:clamp(20px,3vw,48px);
+    padding:0 var(--pad);
+    pointer-events:none;
+    font-size:28px;letter-spacing:.18em;text-transform:uppercase;
+    color:#fff;mix-blend-mode:difference;
+    opacity:0;transition:opacity .3s var(--ease);
+  }
+  .sc-info.show{opacity:1;}
+  .sc-info span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sc-info .si-client{justify-self:start;}
+  .sc-info .si-name{justify-self:center;text-align:center;}
+  .sc-info .si-meta{justify-self:end;opacity:.75;}
+}
+/* mobile: NO fixed identity line, the cards carry their own stacked
+   caption bottom-left (.sc-cap), and doubling it collided with it */
+
+/* ── mobile: an Instagram-style carousel, nothing scrolls down. The
+      piece fills the whole screen; a soft black gradient at the bottom
+      carries the info; you swipe left/right between pieces; small dots
+      at the bottom centre show where you are (active = white, rest =
+      40% white). The top bar and the category tabs float above.
+      The category row NEVER wraps: JS shrinks --catfs until it fits. ── */
+@media (max-width:860px){
+  .sc-cats{
+    position:relative;z-index:5;
+    background:linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,0));
+    flex-wrap:nowrap;
+    gap:clamp(8px,2.6vw,18px);
+    /* the row sits on the SAME side margin as the rest of the fixed chrome
+       (--pad), not a number of its own: WEB and PRINT used to run to within
+       12px of the glass while every other word on screen stood further in,
+       so the bar read as if it were falling off both edges. The notch wins
+       when it is wider. */
+    padding-left:max(var(--pad), env(safe-area-inset-left,0px));
+    padding-right:max(var(--pad), env(safe-area-inset-right,0px));
+    overflow:hidden;
+  }
+  .sc-cat{
+    font-size:var(--catfs, 12px);
+    letter-spacing:.12em;
+    padding:10px 0;min-height:40px;
+    white-space:nowrap;flex:0 0 auto;
+  }
+  .sc-cat[aria-selected="true"]{letter-spacing:.16em;}
+  .sc-stage{
+    position:absolute;inset:0;
+    display:flex;
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    /* the browser never hesitates over the gesture's axis, swipes
+       track the finger instantly */
+    touch-action:pan-x pinch-zoom;
+  }
+  .sc-stage::-webkit-scrollbar{display:none;}
+  .sc-row{display:contents;}     /* rows dissolve into the carousel */
+  .sc-item{
+    position:relative;
+    flex:0 0 100%;width:100%;height:100%;
+    scroll-snap-align:start;
+    display:block;
+    /* slides outside the viewport skip rendering entirely */
+    content-visibility:auto;
+  }
+  /* mobile: the thumb FITS THE WIDTH and sits centred on the screen, the pieces are 4:3 portrait, so full width leaves a clean black
+     margin above and below (the caption rides the lower one). */
+  .sc-box{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+  .sc-thumb{
+    position:relative;left:auto;right:auto;top:auto;bottom:auto;
+    display:block;width:100%;height:auto;aspect-ratio:3/4;
+    background:#000;
+  }
+  .sc-thumb img,.sc-thumb video{width:100%;height:100%;object-fit:cover;}
+  .sc-cap{
+    position:absolute;left:0;right:0;bottom:0;z-index:2;
+    display:block;margin:0;
+    /* the caption ENDS above the fixed socials (Instagram / Mail) and the
+       position dots at the very bottom, its last line clears that ~44px
+       bar instead of colliding with it */
+    padding:56px var(--pad) calc(58px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.72) 40%, #000);
+    font-size:11px;letter-spacing:.12em;line-height:1.6;
+  }
+  .sc-cap span,
+  .sc-cap .cap-client,.sc-cap .cap-name,.sc-cap .cap-meta{
+    display:block;max-width:none;flex:none;
+    white-space:normal;overflow:visible;text-overflow:clip;
+    text-align:left;
+  }
+  .sc-cap .cap-client{color:#fff;}
+  .sc-cap .cap-name{color:var(--ink-dim);}
+  .sc-cap .cap-meta{color:var(--ink-faint);}
+  .sc-status{position:absolute;left:0;right:0;top:42%;}
+}
+
+/* carousel position dots (mobile only) */
+.sc-dots{display:none;}
+@media (max-width:860px){
+  .sc-dots{
+    position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom));
+    z-index:6;
+    display:flex;justify-content:center;align-items:center;gap:7px;
+    pointer-events:none;
+  }
+  .sc-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);}
+  .sc-dots i.on{background:#fff;}
+}
+
+/* ─────────────── showcase work detail ─────────────── */
+/* The page unmasks from the top downward, but only once its content is
+   actually rendered: JS adds .wk-reveal to the body after render, so
+   nothing (black gap, works UI behind) ever flashes in between.       */
+@media (prefers-reduced-motion: no-preference){
+  body.wk-reveal main{
+    animation:wkUnmask var(--descend) var(--ease) both;
+  }
+  @keyframes wkUnmask{
+    from{clip-path:inset(0 0 100% 0);}
+    to{clip-path:inset(0 0 -5% 0);}
+  }
+}
+.wk-head{
+  padding:calc(96px + env(safe-area-inset-top)) var(--pad) clamp(20px,3vw,36px);
+  border-bottom:1px solid var(--line-hard);
+}
+.wk-head .label{display:block;margin-bottom:14px;}
+.wk-title{font-size:clamp(1.4rem, 4.2vw, 3.5rem);}
+/* the h1 ships with a static "Virtually Ever After" (kept in the HTML so
+   no-JS crawlers still read a heading), but render() swaps in the real
+   client name only after the sheet loads. Hold the title hidden until
+   .wk-reveal (added at the end of render, after the swap) so the
+   placeholder never PAINTS. The wkUnmask clip above only guards the
+   no-preference path; this covers reduce-motion too, where main is never
+   clipped and the placeholder would otherwise sit on screen until data. */
+body.wk-page .wk-title{visibility:hidden;}
+body.wk-reveal .wk-title{visibility:visible;}
+.wk-sub{
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1rem, 2.2vw, 1.7rem);color:var(--ink-dim);
+  margin-top:10px;
+}
+.wk-grid{
+  display:grid;
+  grid-template-columns:minmax(250px, 400px) minmax(0,1fr);
+  gap:clamp(26px,5vw,80px);
+  padding:clamp(30px,5vw,60px) var(--pad);
+  border-bottom:1px solid var(--line);
+}
+.wk-row{
+  display:grid;grid-template-columns:minmax(86px,132px) 1fr;
+  gap:14px;align-items:baseline;
+  border-top:1px solid var(--line);
+  padding:12px 0;
+}
+.wk-row:first-child{border-top:0;padding-top:0;}
+.wk-row dt{
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+}
+.wk-row dd{font-size:12px;line-height:1.7;}
+.wk-row dd span{display:block;}
+.wk-brief{font-size:clamp(.8rem, 1.05vw, .95rem);line-height:1.8;max-width:62ch;}
+/* contents drift left / right with generous air between them */
+.wk-media{
+  padding:clamp(50px,8vw,110px) var(--pad);
+}
+.wk-media figure{
+  width:min(720px, 58%);
+  margin:0 0 clamp(90px,13vw,190px);
+}
+.wk-media figure:last-child{margin-bottom:0;}
+.wk-media figure:nth-of-type(even){margin-left:auto;}
+.wk-mtitle{
+  font-family:var(--font-disp);text-transform:uppercase;
+  font-size:clamp(1.05rem, 2.2vw, 1.8rem);line-height:1;
+  margin-bottom:8px;
+}
+.wk-mhead{
+  display:flex;justify-content:space-between;gap:14px;align-items:baseline;
+  margin-bottom:8px;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);
+}
+.wk-mdesc{font-size:12px;color:var(--ink-dim);max-width:68ch;margin-bottom:14px;}
+
+/* video sound: a small inverted speaker toggle, bottom-left on the film */
+.vid-wrap{position:relative;display:inline-block;max-width:100%;}
+/* pseudo-fullscreen for devices without a Fullscreen API (e.g. images
+   on iPhone), tap the media to close */
+.fs-fallback{
+  position:fixed !important;inset:0 !important;z-index:960;
+  width:100vw !important;height:100svh !important;height:100dvh !important;
+  max-width:none !important;max-height:none !important;
+  object-fit:contain;background:#000;
+}
+.snd-chip{
+  position:absolute;left:10px;bottom:10px;z-index:3;
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;mix-blend-mode:difference;
+  border:1px solid rgba(255,255,255,.55);
+  /* same gentle lift as .card-chip: the invert stays, legibility rises */
+  background:rgba(255,255,255,.16);
+  box-shadow:0 0 10px rgba(255,255,255,.22);
+  transition:background-color .25s;
+}
+.snd-chip:hover{background:rgba(255,255,255,.32);}
+.snd-chip svg{width:16px;height:16px;display:block;}
+.snd-chip .ico-on{display:none;}
+.snd-chip.on .ico-off{display:none;}
+.snd-chip.on .ico-on{display:block;}
+.wk-long{
+  border-top:1px solid var(--line);
+  padding:clamp(40px,7vw,90px) var(--pad);
+  font-size:clamp(1rem, 1.9vw, 1.4rem);line-height:1.85;
+}
+@media (max-width:860px){
+  .wk-grid{grid-template-columns:1fr;}
+  .wk-media figure{width:100%;margin-bottom:clamp(50px,10vw,90px);}
+  .wk-media figure:nth-of-type(even){margin-left:0;}
+  /* the closing long text reads compact on a phone */
+  .wk-long{font-size:.85rem;line-height:1.65;padding:26px var(--pad) 34px;}
+}
+
+/* ─────────────── works index under a work (work.html) ───────────────
+   The Works selection interface is a FIXED screen behind the page: as
+   you scroll past the piece, the work lifts off the bottom and reveals
+   the works UI standing still underneath. The URL follows what's on
+   screen, work.html?p=… ⇄ works.html?cat=….                        */
+body.wk-page main{position:relative;z-index:2;background:var(--bg);min-height:100svh;min-height:100dvh;}
+.wk-worksdex{
+  position:fixed;inset:0;z-index:0;
+  height:100svh;height:100dvh;overflow:hidden;
+  background:var(--bg);
+  display:none;               /* hidden until the page is rendered … */
+  flex-direction:column;
+}
+.wk-worksdex .sc-cats{flex:0 0 auto;}
+/* transparent scroll runway after the page, the fixed works UI shows
+   through it while the work content slides up and away */
+.wk-dexspace{height:100svh;height:100dvh;pointer-events:none;display:none;}
+/* … and they only exist once the descend animation has SETTLED, so the
+   works UI can never peek through the clip-path while the page drops */
+body.wk-settled .wk-worksdex{display:flex;}
+body.wk-settled .wk-dexspace{display:block;}
+
+/* ─────────────── custom full-screen film player (work.html) ───────────────
+   Enlarge lifts the film from its own spot to the centre of the screen
+   while everything behind fades to black; the browser's native video UI
+   is never shown, this is our own chrome-on-black interface: BACK top
+   left, client + title bottom left, time above a hairline progress bar
+   whose played part runs in brushed chrome. It idles away, a pointer
+   move brings it back.                                                */
+.vp{
+  position:fixed;inset:0;z-index:970;
+  background:#000;
+  /* phone: tapped things appear at once as their own layer, a quick
+     breath of a fade */
+  opacity:0;
+  transition:opacity .32s var(--ease);
+}
+.vp.open{opacity:1;}
+/* desktop: the original curtain, untouched, the player and the lite
+   overlay descend from the top exactly as they always did */
+@media (min-width:761px){
+  .vp{
+    opacity:1;
+    clip-path:inset(0 0 100% 0);
+    transition:clip-path var(--descend) var(--ease);
+  }
+  .vp.open{clip-path:inset(0 0 0 0);}
+}
+.vp video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;
+  z-index:1;
+  cursor:pointer;
+}
+/* narrow / square films: the same film runs BEHIND, fit to width,
+   blurred + pixelated, full strength, no dimming, no opacity. The
+   canvas overscans the viewport so the blur can't pull dark edges in.
+   Wide desktop formats don't need it. */
+.vp-bg{
+  position:absolute;left:-8%;top:-8%;width:116%;height:116%;
+  display:none;
+  filter:blur(8px);
+  image-rendering:pixelated;
+}
+.vp.bgon .vp-bg{display:block;}
+.vp-ui{opacity:1;transition:opacity .45s var(--ease);}
+.vp.idle .vp-ui{opacity:0;pointer-events:none;}
+html.hascur .vp.idle{cursor:none;}
+/* every piece of player UI is INVERTED against the film (difference),
+   so it can never wash out on light footage */
+.vp-back,.vp-menu{
+  position:absolute;top:calc(14px + env(safe-area-inset-top));z-index:5;
+  font-size:28px;letter-spacing:.18em;text-transform:uppercase;color:#fff;
+  mix-blend-mode:difference;
+  min-height:44px;display:inline-flex;align-items:center;
+}
+.vp-back{left:var(--pad);}
+.vp-menu{right:var(--pad);}
+@media (max-width:760px){
+  .vp-back,.vp-menu{font-size:18px;}
+}
+/* desktop: the play/pause chip rides the cursor (clicks fall through
+   to the film itself); touch devices pin it top right, always visible */
+.vp-toggle{
+  position:absolute;left:50%;top:50%;z-index:5;
+  /* centred exactly ON the cursor (JS writes left/top = clientX/Y), no upward offset, so it never floats above where you think you are */
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  transition:opacity .15s var(--ease);
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#fff;
+  mix-blend-mode:difference;
+  border:1px solid rgba(255,255,255,.75);
+  background:rgba(255,255,255,.16);
+  box-shadow:0 0 10px rgba(255,255,255,.22);
+  padding:10px 18px;min-height:38px;
+}
+/* over a player control (Back / Menu / seek bar) the pause chip yields,
+   and the #cur invert ball returns (data.js), so reaching for Back is
+   never shadowed by a "Pause" label sitting on the cursor */
+.vp.on-ctrl .vp-toggle{opacity:0;}
+@media (hover:none){
+  .vp-toggle{
+    left:auto;right:var(--pad);top:calc(72px + env(safe-area-inset-top));
+    transform:none;pointer-events:auto;min-height:44px;
+  }
+  .vp.on-ctrl .vp-toggle{opacity:1;}   /* touch: chip stays pinned, always */
+}
+.vp-info{
+  position:absolute;left:var(--pad);right:var(--pad);
+  bottom:clamp(120px, 22vh, 260px);z-index:4;   /* pulled toward the middle */
+  pointer-events:none;
+  color:#fff;mix-blend-mode:difference;
+}
+.vp-client{
+  display:block;margin-bottom:10px;
+  font-size:14px;letter-spacing:.24em;text-transform:uppercase;color:#fff;
+}
+.vp-title{
+  font-family:var(--font-disp);font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.5rem, 4.5vw, 4rem);line-height:.9;
+  color:#fff;
+  -webkit-text-stroke:1px #fff;   /* crisp 1px white edge on the letters */
+}
+/* the J-column description reads at the same size as on the stage */
+.vp-desc{
+  margin-top:14px;
+  max-width:min(620px, 60ch);
+  font-family:var(--font-mono);
+  font-size:17px;line-height:1.65;
+  text-transform:none;letter-spacing:0;
+  color:#fff;
+}
+.vp-desc:empty{display:none;}
+.vp-time{
+  position:absolute;right:var(--pad);bottom:calc(56px + env(safe-area-inset-bottom));z-index:4;
+  font-size:11px;letter-spacing:.18em;color:#fff;
+  mix-blend-mode:difference;
+}
+/* 3× thicker bar: the watched trail runs inverted against the film,
+   the current-position marker is a bigger SOLID WHITE rectangle */
+.vp-bar{
+  position:absolute;left:var(--pad);right:var(--pad);
+  bottom:calc(22px + env(safe-area-inset-bottom));z-index:5;
+  height:34px;display:flex;align-items:center;cursor:pointer;
+  touch-action:none;
+}
+.vp-bar::before{
+  content:'';position:absolute;left:0;right:0;top:50%;height:3px;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,.3);
+  mix-blend-mode:difference;
+}
+.vp-fill{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  height:9px;width:0;
+  background:#fff;
+  mix-blend-mode:difference;   /* the watched part inverts */
+}
+.vp-knob{
+  position:absolute;left:0;top:50%;transform:translate(-50%,-50%);
+  width:16px;height:26px;
+  background:#fff;             /* plain white, never inverted */
+}
+/* ═══ THE PHONE'S FILM IS A VERTICAL PAGE, NOT AN OVERLAY ═══════════════
+   A 16:9 film in a portrait frame is a band across the middle with black
+   above and below it. The words used to be laid ON that band, client,
+   title and a six-hundred-character description all anchored to the bottom
+   and growing upward until they ran under BACK, across the pause chip and
+   straight over the picture. It read as a horizontal crop with text spilled
+   on it, because that is what it was.
+
+   So on a phone the player becomes a COLUMN: client, title, then the film
+   in its own exact 16:9 band, then the description in whatever is left.
+   Nothing overlaps anything, the film is never covered, and the type is
+   sized to the room it actually has (spa.js fits the description to the
+   box, down to a floor, below that it scrolls rather than shrink into
+   ants). .vp-info is display:contents so its three children can take their
+   own places in that column; the blend and the colour move down with them. */
+@media (max-width:760px){
+  .vp{
+    display:flex;flex-direction:column;
+    padding:calc(66px + env(safe-area-inset-top,0px)) var(--pad)
+            calc(112px + env(safe-area-inset-bottom,0px));   /* clears the transport row */
+  }
+  .vp[hidden]{display:none;}
+  .vp-bg{position:absolute;}
+  .vp-info{display:contents;}
+  .vp-client,.vp-title{mix-blend-mode:difference;pointer-events:none;flex:0 0 auto;}
+  .vp-client{order:1;font-size:10px;margin-bottom:7px;}
+  .vp-title{
+    order:2;font-size:clamp(1rem, 4.6vw, 1.25rem);line-height:1.04;
+    -webkit-text-stroke:.4px #fff;
+  }
+  .vp video{
+    order:3;position:relative;inset:auto;
+    /* the band IS the film's own 16:9 rectangle, no crop, nothing wasted.
+       On a short phone it gives a little back so the words still fit; on a
+       tall one (26vh lands on the same number) nothing moves at all. */
+    width:100%;height:min(56.25vw, 26vh);flex:0 0 auto;margin:14px 0;
+  }
+  .vp-desc{
+    order:4;flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    margin-top:0;max-width:none;
+    font-size:13px;line-height:1.55;
+    mix-blend-mode:difference;
+  }
+  /* the transport reads as one row along the foot: pause left, clock right,
+     the bar under both, and the room's own sound chip steps behind the
+     player exactly as the space·page switch already does, so nothing from
+     another layer sits on top of a film */
+  .vp-toggle{left:var(--pad);right:auto;top:auto;bottom:calc(54px + env(safe-area-inset-bottom,0px));}
+  .vp-time{bottom:calc(58px + env(safe-area-inset-bottom,0px));font-size:10px;}
+  body:has(.vp.open) #sndT{z-index:1!important;pointer-events:none!important;}
+}
+
+/* media-slot chips (Enlarge on films/stills) read bigger than the small
+   archive card chips */
+.vid-wrap .card-chip,.pdf-flip .card-chip{
+  font-size:12px;letter-spacing:.2em;
+  padding:13px 20px;min-height:44px;
+}
+
+/* ── page info HUD (desktop): the work's identity, sheet fields and
+      brief sit FIXED on the media stage, nothing scrolls, everything
+      inverted against the footage ── */
+.wk-ihud{display:none;}
+@media (min-width:861px){
+  .wk-ihud{
+    position:fixed;inset:0;z-index:75;
+    display:block;pointer-events:none;
+    /* the INVERT lives on this container: a fixed layer isolates its
+       children's blending, so difference on the texts inside never
+       reached the footage, blended as one group (like the topbar) the
+       identity + fields + brief invert against WHATEVER media runs
+       behind: mp4, png, jpg, m3u8, live pages alike */
+    mix-blend-mode:difference;
+    /* while the stage isn't pinned the layer is GONE (visibility), not
+       merely transparent, it can never sit over the works UI below */
+    opacity:0;visibility:hidden;
+    transition:opacity .5s var(--ease), visibility .5s;
+  }
+  .wk-ihud.on{opacity:1;visibility:visible;}
+  .ih-left{
+    position:absolute;left:var(--pad);top:calc(66px + env(safe-area-inset-top));
+    max-width:min(360px, 26vw);
+    color:#fff;
+  }
+  .ih-left .label{color:#fff;opacity:.65;}
+  .ih-client{
+    margin-top:8px;
+    font-family:var(--font-disp);font-weight:400;text-transform:uppercase;
+    font-size:clamp(1.05rem, 2.25vw, 1.95rem);line-height:.92;
+    -webkit-text-stroke:1px #fff;
+  }
+  .ih-name{
+    margin-top:6px;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    opacity:.8;
+  }
+  .ih-info{margin-top:16px;font-size:clamp(11px,.8vw,12.5px);line-height:1.55;max-height:40vh;overflow:hidden;}
+  .ih-info .wk-row{
+    display:grid;grid-template-columns:minmax(78px,110px) 1fr;
+    gap:10px;border-top:1px solid rgba(255,255,255,.22);
+    padding:7px 0;
+  }
+  .ih-info .wk-row:first-child{border-top:0;padding-top:0;}
+  .ih-info dt{font-size:clamp(9.5px,.7vw,11px);letter-spacing:.18em;text-transform:uppercase;color:#fff;opacity:.6;}
+  .ih-info dd{font-size:clamp(11px,.8vw,12.5px);color:#fff;}
+  .ih-info dd span{display:block;}
+  .ih-brief{
+    position:absolute;right:var(--pad);top:calc(66px + env(safe-area-inset-top));
+    max-width:min(340px, 23vw);
+    color:#fff;   /* inverts through the container's difference */
+  }
+  .ih-brief .label{display:block;margin-bottom:12px;color:#fff;opacity:.65;}
+  .ih-brief p{font-size:clamp(11.5px,.85vw,13px);line-height:1.7;max-height:34vh;overflow:hidden;}
+}
+
+/* ─────────────── desktop media stage (work.html) ───────────────
+   ONE fixed full-screen stage: the screen holds still while the medias
+   cross-fade in place (nothing slides past); the film runs full screen
+   in the background and a fixed HUD narrates the active one. After the
+   last media, normal scrolling resumes. Mobile keeps the older layout. */
+.wk-hud{display:none;}
+.wk-hud-info{display:none;}
+@media (min-width:861px){
+  .wk-media.slides{padding:0;}
+  .wk-stagewrap{position:relative;}
+  .wk-stage{
+    position:sticky;top:0;
+    height:100svh;height:100dvh;overflow:hidden;
+    background:#000;
+  }
+  .wk-frame{
+    position:absolute;inset:0;
+    opacity:0;visibility:hidden;
+    /* calm, clean cross-fade between medias, nothing pops or slides */
+    transition:opacity 1.1s var(--ease), visibility 1.1s;
+    will-change:opacity;
+  }
+  .wk-frame.on{opacity:1;visibility:visible;}
+  /* films keep their frame (contain); stills and every thumbnail fill
+     the whole screen, no black bands around images */
+  .wk-frame video,.wk-frame img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  }
+  .wk-frame img,.wk-frame .thumb-media{object-fit:cover;}
+  /* a live html page / website fills the stage and stays interactive, the fixed texts ride visually above it (difference) but are
+     pointer-transparent, so the mouse plays with the page itself */
+  .wk-frame iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;
+  }
+
+  /* readability: the sides of the stage blur under the fixed texts, full strength at the very edge, easing evenly to nothing by ~25%
+     of the screen on each side */
+  .wk-stage::before,.wk-stage::after{
+    content:'';position:absolute;top:0;bottom:0;width:25%;z-index:2;
+    pointer-events:none;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  }
+  .wk-stage::before{
+    left:0;
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0%,transparent 100%);
+  }
+  .wk-stage::after{
+    right:0;
+    -webkit-mask-image:linear-gradient(270deg,#000 0%,transparent 100%);
+    mask-image:linear-gradient(270deg,#000 0%,transparent 100%);
+  }
+  /* pdf: a still cover on the stage, reading happens via Investigate */
+  .wk-frame .pdf-still{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    padding:6svh 0;
+  }
+  .wk-frame .pdf-still canvas,.wk-frame .pdf-still img{
+    position:static;width:auto;height:100%;max-width:92%;object-fit:contain;
+  }
+
+  /* no reserved band above the video: the flow head/grid hide on
+     desktop, their content rides the stage below instead */
+  body.wk-page .wk-head,body.wk-page .wk-grid{display:none;}
+
+  .wk-hud{
+    position:fixed;inset:0;z-index:80;
+    display:block;pointer-events:none;
+    /* faded away = truly gone: an invisible HUD must never eat clicks
+       or keyboard focus meant for the works UI underneath */
+    opacity:0;visibility:hidden;
+    transition:opacity .5s var(--ease), visibility .5s;
+  }
+  .wk-hud.on{opacity:1;visibility:visible;}
+  /* the instant the HUD starts fading, its buttons stop catching input, otherwise the invisible centre button (Play / Investigate…) opens
+     films and pdfs over the works index below the page */
+  .wk-hud:not(.on) .hud-cta,
+  .wk-hud:not(.on) .hud-nav,
+  .wk-hud:not(.on) .hud-thumbs{pointer-events:none;}
+  /* the media's name + description live on their OWN blended layer, inside .wk-hud the fixed container would isolate the difference
+     away from the footage, and the CTA / squares must never invert */
+  .wk-hud-info{
+    position:fixed;inset:0;z-index:79;
+    display:block;pointer-events:none;
+    mix-blend-mode:difference;
+    opacity:0;visibility:hidden;
+    transition:opacity .5s var(--ease), visibility .5s;
+  }
+  .wk-hud-info.on{opacity:1;visibility:visible;}
+  .hud-info{
+    position:absolute;left:var(--pad);bottom:88px;
+    max-width:min(430px, 30vw);
+    max-height:26vh;overflow:hidden;
+    color:#fff;
+  }
+  .hud-title{
+    font-family:var(--font-disp);font-weight:400;text-transform:uppercase;
+    font-size:clamp(.95rem, 1.95vw, 1.7rem);line-height:.95;
+    -webkit-text-stroke:1px #fff;
+  }
+  .hud-desc{
+    margin-top:8px;
+    font-size:clamp(11.5px,.85vw,13px);line-height:1.6;color:#fff;
+  }
+  .hud-desc:empty{display:none;}
+  /* the activation verb sits dead-centre of the stage: 18px type in a
+     1px box whose interior blurs the footage behind it (8px, blended
+     at 60%), always readable, never a solid chip */
+  .hud-cta{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    pointer-events:auto;
+    font-size:clamp(12px,.95vw,14px);letter-spacing:.24em;text-transform:uppercase;color:#fff;
+    border:1px solid rgba(255,255,255,.9);
+    background:rgba(0,0,0,.4);   /* plain 40% black interior */
+    box-shadow:none;
+    padding:11px 20px;min-height:44px;
+    transition:letter-spacing .45s var(--ease);
+  }
+  .hud-cta:hover{letter-spacing:.32em;}
+  /* the film strip rides the BOTTOM CENTRE on the thumbnails' old
+     baseline: ‹ in front, the squares, › behind, one flex row */
+  .hud-strip{
+    position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+    display:flex;align-items:center;gap:14px;
+    max-width:calc(100vw - 2 * var(--pad));
+    pointer-events:none;               /* the buttons re-enable below */
+  }
+  /* forward / back steppers open and close the strip, grown to 2.5×
+     their old size (34px glyph → 85px, 54px box → 135px). A 1px black
+     rim runs around the white glyph so the arrows keep reading over
+     light footage (blending can't reach them inside the fixed HUD). */
+  .hud-nav{
+    flex:0 0 auto;
+    pointer-events:auto;
+    font-family:var(--font-mono);
+    font-size:85px;line-height:1;color:#fff;
+    text-shadow:
+      -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000,
+      0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000, 1px 0 0 #000;
+    padding:0;width:135px;height:135px;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:opacity .3s;
+  }
+  .hud-nav:disabled{opacity:.18;pointer-events:none;}
+  .hud-thumbs{
+    display:flex;gap:8px;flex:0 1 auto;
+    overflow-x:auto;scrollbar-width:none;
+    pointer-events:auto;
+  }
+  .hud-thumbs::-webkit-scrollbar{display:none;}
+  .hud-thumbs button{
+    /* the squares keep their original size */
+    flex:0 0 auto;
+    width:54px;height:54px;padding:0;
+    border:1px solid rgba(255,255,255,.35);
+    background:#0A0A0A;overflow:hidden;
+    opacity:.5;
+    transition:opacity .25s, border-color .25s;
+  }
+  .hud-thumbs button:hover{opacity:.85;}
+  .hud-thumbs button.on{opacity:1;border-color:#fff;}
+  .hud-thumbs img,.hud-thumbs video,.hud-thumbs canvas{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+}
+
+/* lite overlay (pdf / sites / embeds / stills): same curtain as the
+   player, but with an opaque TOP BAR of our own, BACK always left,
+   the wordmark centred, MENU right, and the content starts BELOW it,
+   so an opened site's own header can never collide with our controls */
+.vp-lite{display:flex;flex-direction:column;}
+.ov-bar{
+  flex:0 0 auto;position:relative;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:calc(10px + env(safe-area-inset-top)) var(--pad) 10px;
+  background:#000;
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+/* both verbs sit BETWEEN the player's big BACK and the top bar's small
+   pair: 28px on desktop (15 ↔ 45), 18px on the phone (11 ↔ 26) */
+.ov-back,.ov-menu{
+  font-size:28px;letter-spacing:.18em;text-transform:uppercase;color:#fff;
+  min-height:44px;display:inline-flex;align-items:center;
+}
+.ov-mark{height:20px;width:auto;flex:0 1 auto;min-width:0;object-fit:contain;filter:invert(1);}
+@media (max-width:760px){
+  .ov-back,.ov-menu{font-size:18px;}
+  .ov-mark{height:15px;}
+}
+.vp-lite .ov-stage{position:relative;flex:1 1 auto;min-height:0;}
+/* desktop: NO bar, BACK and MENU float OVER the opened page in the
+   exact spots and the exact look they have everywhere else: white,
+   difference-inverted, frameless. The opaque bar is the phone's. */
+@media (min-width:761px){
+  .vp-lite{display:block;}
+  .vp-lite .ov-stage{position:absolute;inset:0;}
+  .vp-lite .ov-bar{
+    position:absolute;top:0;left:0;right:0;z-index:6;
+    background:transparent;border-bottom:0;
+    padding:calc(14px + env(safe-area-inset-top)) var(--pad) 0;
+    pointer-events:none;
+    mix-blend-mode:difference;   /* the pair inverts against the page, like the top bar */
+  }
+  .vp-lite .ov-back,.vp-lite .ov-menu{pointer-events:auto;}
+}
+.vp-lite .ov-stage iframe{width:100%;height:100%;border:0;display:block;}
+.vp-lite .ov-stage img{width:100%;height:100%;object-fit:contain;}
+/* mobile pdf: the plain reader scrolls inside the curtain, under BACK */
+.vp-lite .ov-stage .pdf-reader{
+  width:100%;height:100%;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:calc(64px + env(safe-area-inset-top)) 14px calc(30px + env(safe-area-inset-bottom));
+}
+
+/* ─────────────── desktop pdf: flipbook exhibit (work.html) ───────────────
+   The page-curl flipbook (flipbook.html) runs right in the media slot;
+   Enlarge takes the slot itself full screen, Close hands it back.
+   Mobile keeps the plain scrolling reader.                            */
+.pdf-flip{background:#000;}
+.pdf-flip iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.pdf-flip .pdf-close{display:none;left:auto;right:10px;top:10px;bottom:auto;}
+.pdf-flip:fullscreen{background:#000;}
+.pdf-flip:fullscreen .pdf-zoom{display:none;}
+.pdf-flip:fullscreen .pdf-close{display:inline-flex;}
+.pdf-flip.fs-fallback .pdf-zoom{display:none;}
+.pdf-flip.fs-fallback .pdf-close{display:inline-flex;}
+
+/* ─────────────── mobile media stage (work.html) ───────────────
+   The works-carousel language on the work page: full-screen media
+   slides in a horizontal snap flow, the active media's name +
+   description difference-inverted ON the footage, the activation verb
+   bottom centre, dots underneath. Desktop keeps its sticky stage.   */
+@media (max-width:860px){
+  .wk-media.mb-host{padding:0;}
+  .mb-stage{position:relative;height:100svh;height:100dvh;background:#000;}
+  /* a lone card: no dots, no swipe hint, it's one piece, not a carousel */
+  .mb-stage.mb-solo .mb-dots,.mb-stage.mb-solo .v7swipe{display:none!important;}
+  .mb-track{
+    display:flex;height:100%;
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    overscroll-behavior-x:contain;
+  }
+  .mb-track::-webkit-scrollbar{display:none;}
+  .mb-slide{
+    position:relative;flex:0 0 100vw;height:100%;
+    scroll-snap-align:start;scroll-snap-stop:always;
+    overflow:hidden;background:#000;
+  }
+  /* films keep their frame; stills and thumbnails fill the screen;
+     live pages take the whole slide */
+  .mb-slide video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;}
+  .mb-slide img,.mb-slide .thumb-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .mb-slide iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .mb-slide .pdf-still{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    padding:5svh 0;
+  }
+  .mb-slide .pdf-still canvas,.mb-slide .pdf-still img{
+    position:static;width:auto;height:100%;max-width:92%;object-fit:contain;
+  }
+  /* the media's name + description ride ON the footage, inverted */
+  .mb-cap{
+    position:absolute;left:16px;right:16px;
+    bottom:calc(120px + env(safe-area-inset-bottom));
+    pointer-events:none;
+    color:#fff;mix-blend-mode:difference;
+  }
+  .mb-cap h3{
+    font-family:var(--font-disp);font-weight:400;text-transform:uppercase;
+    font-size:1.5rem;line-height:.95;
+    -webkit-text-stroke:1px #fff;
+  }
+  .mb-cap h3:empty{display:none;}
+  .mb-cap p{margin-top:8px;font-size:13px;line-height:1.55;}
+  .mb-cap p:empty{display:none;}
+  /* the activation verb, bottom centre, the desktop button's box */
+  .mb-cta{
+    position:absolute;left:50%;transform:translateX(-50%);
+    bottom:calc(52px + env(safe-area-inset-bottom));z-index:3;
+    font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+    border:1px solid rgba(255,255,255,.9);
+    background:rgba(0,0,0,.4);
+    padding:12px 22px;min-height:46px;
+  }
+  .mb-dots{pointer-events:auto;}
+  .mb-dots i{padding:0;}
+
+  /* tactile presses: the touchables give softly under the finger */
+  .mb-cta,.snd-chip,.card-chip,.sc-cat{transition:transform .25s var(--ease);}
+  .mb-cta:active{transform:translateX(-50%) scale(.95);}
+  .snd-chip:active,.card-chip:active,.sc-cat:active{transform:scale(.9);}
+  /* swipe parallax shifts the media inside the cards, never spill */
+  .sc-thumb{overflow:hidden;}
+  .mb-slide{overflow:hidden;}
+}
+
+/* ─────────────── scroll reveal ─────────────── */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.on{opacity:1;transform:none;}
+
+
+/* ─────────────── responsive, mobile stays COMPACT ─────────────── */
+@media (max-width:760px){
+  main{padding-bottom:46px;}
+  /* mobile topbar: centred wordmark (absolute) + Menu pinned right */
+  .topbar{justify-content:flex-end;}
+  .topbar .bar-tag{display:none;}
+  .hero-title{padding-bottom:70px;}
+  .hero-tag{flex-direction:column;gap:4px;align-items:flex-end;text-align:right;}
+  .intro{padding:44px var(--pad);}
+  .card{flex-basis:min(300px,82vw);}
+  .works-head{padding-top:74px;padding-bottom:14px;}
+  .page-title{font-size:1.35rem;}
+  .works-head .view-switch{margin-top:8px;}
+  .group-head{padding:14px var(--pad);}
+  .group-head .g-name{font-size:1.35rem;}
+  .proj-body{padding:34px var(--pad);}
+  .work-sec{margin-top:26px;padding-top:20px;}
+  .ws-head .ws-title{font-size:1.1rem;}
+  .ws-desc{font-size:12px;margin-bottom:12px;}
+  .proj-about{margin-bottom:30px;}
+  .cloud-band{padding:28px var(--pad);}
+  .cloud span{font-size:1rem;}
+  .proj-close{padding:34px var(--pad);}
+  .proj-close .label{margin-bottom:14px;}
+  .svc-list{font-size:.9rem;column-gap:14px;row-gap:5px;}
+  .proj-nav{grid-template-columns:1fr;}
+  .proj-nav a{padding:16px var(--pad);gap:5px;}
+  .proj-nav a + a{border-left:0;border-top:1px solid var(--line);}
+  .proj-nav .disp{font-size:.8rem;}
+  .allworks{margin-top:36px;padding:38px var(--pad);}
+  .allworks .disp{font-size:1.9rem;}
+  .allworks .label{margin-top:10px;}
+  .feat{padding-top:30px;}
+  .feat-stage{aspect-ratio:3/4;}   /* mobile: home films run portrait */
+  .feat-sub{font-size:11px;line-height:1.6;}
+  .acc-head{padding:14px var(--pad);}
+  .acc-head .acc-title{font-size:1rem;}
+  .contact-list a{font-size:.85rem;min-height:40px;}
+  .media-note{margin-top:6px;}
+}
+
+/* ─────────────── motion safety ─────────────── */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{transition-duration:.01ms !important;animation:none !important;}
+  .clip > span,.reveal{transform:none !important;opacity:1 !important;}
+  .feat-stage{transform:none !important;}
+}
+
+
+/* ═══════════ awwwards pass ═══════════ */
+
+/* no grey tap flash, branded text selection */
+*{-webkit-tap-highlight-color:transparent;}
+::selection{background:#fff;color:#000;}
+
+/* film grain: a near-invisible static layer that turns "screen black"
+   into a dark room, sits over everything except the leave curtain */
+@media (max-width:860px){ body::after{content:none !important;} }
+body::after{
+  content:'';position:fixed;inset:-2%;z-index:1500;
+  pointer-events:none;opacity:.05;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
+  background-size:180px 180px;
+}
+
+/* loader → hero fusion: the counter dies, the backdrop clears, the
+   mark keeps standing on the film (difference) for one breath */
+#loader{transition:background .4s var(--ease);}
+#loader.fuse{background:transparent;pointer-events:none;}
+#loader.fuse .loader-bar,#loader.fuse .loader-pct,#loader.fuse #loaderNote{
+  opacity:0;transition:opacity .22s var(--ease);
+}
+#loader.fuse .loader-mark{
+  /* the mark leaves WITH the loader, never an overlay on the page */
+  mix-blend-mode:difference;
+  opacity:0;transition:opacity .28s var(--ease);
+}
+
+/* inner-page entrance: a one-beat wordmark flash before the page */
+.page-in{
+  position:fixed;inset:0;z-index:1990;background:#000;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  transition:opacity .55s var(--ease);
+}
+.page-in img{width:min(52vw,260px);height:auto;}
+.page-in.off{opacity:0;}
+
+@media (max-width:860px){
+  /* the work's identity shouts: display-scale client name + kinetic
+     line-by-line rise as the page descends */
+  body.wk-page .wk-title{font-size:9.5vw;line-height:.92;}
+  .wk-reveal .wk-head > *{animation:headRise .9s var(--ease) both;}
+  .wk-reveal .wk-head > *:nth-child(2){animation-delay:.14s;}
+  .wk-reveal .wk-head > *:nth-child(3){animation-delay:.28s;}
+
+  /* the physics writes transforms every frame, keep them on the GPU */
+  .mb-slide video,.mb-slide img,.sc-thumb img,.sc-thumb video{will-change:transform;}
+}
+@keyframes headRise{
+  from{clip-path:inset(0 0 100% 0);transform:translateY(26px);}
+  to{clip-path:inset(-8% 0 -8% 0);transform:none;}
+}
+
+
+/* ── v3: the difference cursor, site-wide (desktop) ── */
+@media (min-width:861px) and (hover:hover) and (pointer:fine){
+  /* the OS pointer is hidden ONLY once data.js has actually mounted the
+     #cur invert ball (it stamps html.hascur on success). If the ball never
+     mounts, data.js gated/failed, the #veaAsk white screen before it runs,
+     a direct hit on a flat-gated page, the native cursor STAYS, so no page
+     is ever left with an invisible pointer. */
+  html.hascur body, html.hascur a, html.hascur button, html.hascur input,
+  html.hascur textarea, html.hascur select, html.hascur label{cursor:none;}
+  /* NOTHING may resurrect the OS pointer on desktop, not the film in
+     the player, not a media slot, not the raised-hand over a <video>.
+     The #cur invert ball (and the film's pause chip) are the only
+     pointers. !important beats any inline style="cursor:pointer". */
+  html.hascur .vp, html.hascur .vp *, html.hascur .vp video, html.hascur .vp-bar,
+  html.hascur .media-slot, html.hascur .media-slot *,
+  html.hascur video, html.hascur .sc-item, html.hascur .sc-item *,
+  html.hascur .mb-slide, html.hascur .mb-slide *{cursor:none !important;}
+  #cur{
+    position:fixed;left:0;top:0;z-index:2147483646;pointer-events:none;
+    width:10px;height:10px;border-radius:50%;
+    background:#fff;mix-blend-mode:difference;
+    transform:translate(-50%,-50%);
+    display:flex;align-items:center;justify-content:center;
+    transition:width .28s var(--ease),height .28s var(--ease),opacity .25s;
+  }
+  #cur span{
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;color:#000;white-space:nowrap;
+    opacity:0;transition:opacity .2s;
+  }
+  #cur.big{width:76px;height:76px;}
+  #cur.big span{opacity:1;}
+  #cur.mid{width:34px;height:34px;}
+  #cur.off{opacity:0;}
+}
+
+/* ═══════════ THE OFFICE overlays (moved from about.html, the office is
+   an in-document SPA room in v6; ANY page may host it, so its dress
+   lives in the one shared stylesheet) ═══════════ */
+/* ═══ THE OFFICE, the 3D "office" is the about experience for a capable
+   visitor (office.js). It creates its own canvas (canvas.g3c, revealed by
+   body.g3) and injects these overlays; the flat 2D fallback below hides under
+   body.g3 but stays in the DOM for crawlers. Menu / cursor / canvas reuse the
+   site's own style.css; only the office overlays are defined here. ═══ */
+:root{--mono:'IBM Plex Mono',ui-monospace,monospace;--disp:var(--mono);}  /* one font: --disp no longer Telegrama, the office reader + service-item titles read IBM like everything else */
+/* the bottom line matches the other rooms' #g3info EXACTLY, same place
+   (bottom:22px), size (11px), colour (white @ .6) and inverted blend */
+#info{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:40;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);mix-blend-mode:difference;pointer-events:none;white-space:nowrap;
+  max-width:92vw;overflow:hidden;text-overflow:ellipsis;text-align:center;transition:opacity .4s ease;}
+@media (max-width:860px), (pointer:coarse){
+  /* clear of the quality switch (bottom-right) and the home bar */
+  #info{font-size:clamp(9px,2.6vw,11px);letter-spacing:.1em;white-space:normal;
+    bottom:calc(46px + env(safe-area-inset-bottom,0px));max-width:70vw;}
+}
+/* desktop: the reader AUTO-FITS, office.js sets --rfit to shrink a tall bio
+   (founders' education + experience) until the whole thing lands on screen with
+   a margin, instead of silently clipping under a hidden scrollbar. */
+#reader{position:fixed;left:clamp(16px,3.5vw,52px);top:clamp(72px,11vh,124px);transform:translateX(-14px) scale(var(--rfit,1));transform-origin:left top;
+  z-index:24;width:clamp(250px,27vw,440px);max-height:none;overflow:visible;
+  color:#fff;mix-blend-mode:difference;font-family:var(--mono);
+  opacity:0;pointer-events:none;transition:opacity .5s ease,transform .5s cubic-bezier(.22,.9,.24,1);}
+#reader.on{opacity:1;pointer-events:auto;transform:translateX(0) scale(var(--rfit,1));}
+#reader::-webkit-scrollbar{width:0;}
+#reader h3{font-family:var(--disp);text-transform:uppercase;font-size:clamp(1.15rem,2.3vw,1.9rem);
+  line-height:1.02;letter-spacing:-.01em;margin:6px 0 16px;min-height:1.1em;}
+#reader .rb p{font-size:clamp(11.5px,.95vw,14px);line-height:1.85;opacity:.8;margin:0 0 1em;max-width:40ch;}
+#reader .rb p.sig{font-family:var(--disp);letter-spacing:.14em;text-transform:uppercase;opacity:1;font-size:12px;}
+#reader .rb p.lead{opacity:.62;font-style:italic;}
+#reader .rb p.meta-h{font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;font-size:9.5px;
+  opacity:.5;margin:1.4em 0 .5em;}
+#reader .rb p.meta{font-size:clamp(9.5px,.78vw,11px);line-height:1.55;opacity:.62;margin:0 0 .35em;max-width:42ch;}
+#reader .row{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(255,255,255,.28);
+  color:#fff;font-family:var(--mono);font-size:clamp(11px,.9vw,13.5px);letter-spacing:.02em;padding:clamp(9px,1.1vh,13px) 2px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;transition:padding-left .25s ease,opacity .2s;}
+#reader .row:last-child{border-bottom:1px solid rgba(255,255,255,.28);}
+#reader .row:hover{padding-left:12px;}
+#reader .row em{font-style:normal;font-size:9px;letter-spacing:.24em;opacity:.5;white-space:nowrap;}
+#reader .cl{display:block;font-family:var(--disp);text-transform:uppercase;font-size:clamp(.78rem,1.28vw,1.2rem);
+  line-height:1.35;color:#fff;text-decoration:none;padding:2px 0;overflow-wrap:anywhere;}
+#reader .cl:hover{opacity:.6;}
+#reader .start{margin-top:16px;font-size:clamp(10px,.85vw,12px);letter-spacing:.14em;text-transform:uppercase;opacity:.55;}
+#reader .proof,#reader a.proof{display:inline-block;margin-top:14px;font-size:clamp(9px,.8vw,11px);letter-spacing:.2em;
+  text-transform:uppercase;color:#fff;opacity:.6;text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:3px;cursor:pointer;}
+#reader a.proof:hover{opacity:1;border-bottom-color:#fff;}
+#reader .crumb{background:none;border:0;color:#fff;font-family:var(--mono);font-size:clamp(9px,.8vw,11px);letter-spacing:.22em;
+  text-transform:uppercase;opacity:.55;cursor:pointer;padding:0 0 6px;}
+#reader .crumb:hover{opacity:1;}
+/* ═══ v8 · the OFFICE reader becomes a full-width, readable SHEET on a phone, no 27vw landscape column, no reliance on the baked (landscape) plate ═══ */
+@media (max-width:860px), (pointer:coarse){
+  #reader{
+    left:0;right:0;top:auto;bottom:0;width:auto;max-width:none;
+    max-height:78dvh;max-height:78vh;
+    transform:translateY(16px);mix-blend-mode:normal;color:#fff;
+    padding:22px clamp(18px,5vw,30px) calc(20px + env(safe-area-inset-bottom,0px));
+    background:rgba(8,8,10,.8);
+    -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+    overscroll-behavior:contain;-webkit-overflow-scrolling:touch;overflow:auto;
+  }
+  #reader.on{transform:none;}
+  /* v8 · the FOUNDER sheet: the film breathes on TOP, the words hold the
+     lower half, media above, text below, smaller type, never a crossing */
+  #reader.on{max-height:54dvh;max-height:54vh;}
+  /* the FOUNDER mask is TOTAL: the film layer blacks the WHOLE viewport
+     behind the sheet, between the film's hem and the words there is only
+     black, never the room */
+  body.focused #film.on{top:0;bottom:0;height:auto;z-index:18;background:#000;
+    display:flex;align-items:flex-start;justify-content:center;
+    padding-top:calc(58px + env(safe-area-inset-top,0px));}
+  body.focused #film.on video{object-fit:contain;width:70%;height:38vh;}
+  /* the founder sheet owns the phone's screen, the chrome (auto-look,
+     controls, sound, the corner socials) drops BELOW its total black mask
+     instead of floating over the film. !important: these buttons carry an
+     inline z-index:30 from their mount, and only an important rule outranks it */
+  body.focused #g3look, body.focused #g3ctl, body.focused #sndT,
+  body.focused #g3soc{z-index:16!important;}
+  /* while a SHEET is up, the persistent HUD lines get out of its way
+     (on-object reads, about/story, keep the info line: it says the way back) */
+  body.rsheet #info{opacity:0!important;}
+  body.rsheet #g3q{opacity:0!important;pointer-events:none!important;}
+  body.rsheet #g3soc,body.rsheet #sndT{opacity:0!important;pointer-events:none!important;}
+  body.focused #v7hint{opacity:0!important;}
+  #reader h3{font-size:clamp(.85rem,3.8vw,1.15rem);margin:2px 0 8px;}
+  #reader .rb p{font-size:clamp(9px,2.4vw,10px);line-height:1.55;max-width:none;opacity:.86;}
+  #reader .rb p.meta{font-size:clamp(7.5px,2.1vw,8.5px);max-width:none;}
+  #reader .rb p.sig{font-size:clamp(12px,3.4vw,14px);margin-top:1.2em;}
+  #reader .row{font-size:clamp(12px,3.4vw,13.5px);min-height:40px;padding:9px 2px;}
+  #reader .rb p.lead{font-size:clamp(10px,2.8vw,11.5px);line-height:1.5;margin:0 0 .6em;}
+  #reader .row em{font-size:10px;}
+  #reader .cl{font-size:clamp(1rem,4.6vw,1.35rem);}
+  #reader .x{font-size:22px;top:0;padding:6px;}
+  #reader .hint{font-size:clamp(10px,3vw,12px);margin-top:20px;}
+  #reader .crumb{font-size:clamp(10px,3vw,12px);}
+}
+#reader .x{position:absolute;right:0;top:-2px;background:none;border:0;color:#fff;font-size:15px;cursor:pointer;opacity:.5;}
+#reader .x:hover{opacity:1;}
+#reader .hint{display:block;margin-top:22px;font-size:clamp(8px,.75vw,10px);letter-spacing:.26em;text-transform:uppercase;
+  opacity:.45;background:none;border:0;color:#fff;font-family:var(--mono);cursor:pointer;padding:0;text-align:left;}
+#reader .hint:hover{opacity:.9;}
+#film{position:fixed;inset:0;z-index:23;display:flex;align-items:center;justify-content:flex-end;
+  padding:0 clamp(24px,5vw,80px);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  background:linear-gradient(to right, transparent 0%, transparent 25%, #000 50%, #000 100%);}
+#film.on{opacity:1;}
+#film video{width:min(48vw,700px);height:min(64vh,560px);object-fit:contain;background:#000;}
+#phonelinks{position:fixed;z-index:25;display:none;}
+#phonelinks.on{display:block;}
+#phonelinks a{border-radius:10px;transition:background .15s ease;}
+#phonelinks a:hover{background:rgba(0,0,0,.07);}
+/* the office keeps the site frame: the topbar (tag · wordmark · menu) and the
+   bottom-left social foot both read inverted against the room, and both fade
+   with the flight (office.js drives their opacity) exactly like the other rooms */
+body.g3 header.topbar,
+body.g3 .w-foot{mix-blend-mode:difference;background:transparent!important;}
+body.g3 .w-foot{transform:none;}   /* opacity is driven inline by office.js (fadeUI) */
+/* the quality switch stays visible in the office too, the one
+   escape hatch must stand in every room (v6) */
+
+/* ═════════════════════════════════════════════════════════════════════
+   V7, JURY ROADMAP LAYER
+   Everything below implements the v6 jury's score-raising roadmap
+   (see jury.html · 06). Single font kept; hierarchy is built from
+   size-jumps, weight, opacity layers and hairlines only.
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── focus ring: keyboard users get the steel hairline everywhere ── */
+:focus-visible{outline:1px solid var(--steel);outline-offset:4px;border-radius:1px;}
+
+/* ── flat hero: the thesis leads (home) ─────────────────────────── */
+.hero-line{
+  position:relative;z-index:2;
+  padding:0 var(--pad) clamp(56px,9vh,110px);
+  max-width:1050px;
+}
+.hero-line .v7-eyebrow{margin-bottom:18px;}
+.hero-line p{
+  font-family:var(--font-mono);font-weight:500;
+  font-size:clamp(1.35rem,3.4vw,2.9rem);
+  line-height:1.28;letter-spacing:-.005em;color:var(--ink);
+  text-wrap:balance;margin:0;
+  text-shadow:0 0 22px rgba(0,0,0,.85),0 0 6px rgba(0,0,0,.7);  /* legible over any film frame */
+}
+.hero-line p em{font-style:normal;font-weight:400;color:var(--ink-dim);}
+/* the hero lines rise on their own clock, no .on ancestor needed, so the
+   flat fast-reveal path gets the same entrance as the 3D ceremony */
+.hero-line .clip>span{animation:v7up .95s var(--ease) both;}
+.hero-line .clip:nth-child(2)>span{animation-delay:.14s;}
+.hero-line .v7-eyebrow{animation:v7fade .8s var(--ease) .05s both;}
+@keyframes v7up{from{transform:translateY(110%)}to{transform:none}}
+@keyframes v7fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){
+  .hero-line .clip>span,.hero-line .v7-eyebrow{animation:none;transform:none;opacity:1;}
+}
+.v7-eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-faint);
+}
+.v7-eyebrow::after{content:"";flex:0 0 clamp(40px,6vw,90px);height:1px;background:var(--line-hard);}
+.hero-cue{
+  position:absolute;z-index:2;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  width:1px;height:44px;overflow:hidden;pointer-events:none;
+}
+.hero-cue i{position:absolute;left:0;top:-46px;width:1px;height:46px;background:var(--steel);opacity:.85;
+  animation:v7cue 2.3s var(--ease) infinite;}
+@keyframes v7cue{0%{transform:translateY(0)}62%{transform:translateY(92px)}100%{transform:translateY(92px)}}
+@media (max-width:860px){
+  /* the phone hero releases the fold: the studio thesis peeks, scroll is obvious */
+  .hero{min-height:86svh;min-height:86dvh;}
+  .hero-line p{font-size:clamp(1.12rem,5.2vw,1.5rem);}
+}
+
+/* ── below-fold scroll-reveal (flat), armed by flat-ui.js only AFTER
+      first paint, so the fast-reveal gate keeps its instant LCP ───── */
+.v7r{opacity:0;transform:translateY(26px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
+  transition-delay:var(--v7d,0s);}
+.v7r.v7on{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  .v7r{opacity:1;transform:none;transition:none;}
+  .hero-cue i{animation:none;}
+}
+
+/* ── hover micro-interactions (fine pointers only, flat only) ────── */
+@media (hover:hover) and (pointer:fine){
+  .sc-item .sc-thumb{transition:filter .45s var(--ease),transform .6s var(--ease);}
+  .sc-item:hover .sc-thumb{filter:brightness(1.14);transform:translateY(-4px);}
+  .acc-head{transition:background .3s,padding-left .45s var(--ease);}
+  .acc-head:hover{padding-left:10px;}
+  .menu-link{transition:letter-spacing .4s var(--ease),color .3s;}
+  .menu-link:hover{letter-spacing:.06em;}
+}
+
+/* ── works, phone: the category row fits PARAMETRICALLY, one line,
+      edge to edge. fitCats (data.js) measures the row once and picks
+      the exact font size where every name shares the line; the
+      leftover breath is distributed evenly by space-between. Only if
+      even the floor size cannot fit (many categories) does the row
+      fall back to scrolling (.cats-scroll).                        ── */
+@media (max-width:860px){
+  .sc-cats{
+    flex-wrap:nowrap;
+    justify-content:space-between;
+    overflow:hidden;
+  }
+  .sc-cats{gap:4px;}   /* space-between does the real spreading; this is the floor */
+  .sc-cat{
+    font-size:var(--catfs, 12px);
+    letter-spacing:var(--cattr, .1em);
+    min-height:44px;
+    padding:12px 2px;
+    flex:0 0 auto;
+  }
+  .sc-cats.cats-scroll{
+    justify-content:flex-start;
+    overflow-x:auto;overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    scroll-snap-type:x proximity;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 26px,#000 calc(100% - 26px),transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 26px,#000 calc(100% - 26px),transparent);
+  }
+  .sc-cats.cats-scroll .sc-cat{padding:12px 10px;scroll-snap-align:center;}
+  /* v8 · the TWO-ROW fold: when one row would need an unreadable font, the
+     words break into an upper and a lower line at a comfortable size */
+  .sc-cats.cats-2row{
+    flex-wrap:wrap;justify-content:center;
+    column-gap:14px;row-gap:0;
+  }
+  .sc-cats.cats-2row .sc-cat{min-height:38px;padding:8px 4px;}
+  .sc-cats::-webkit-scrollbar{display:none;}
+  /* piece counter, the dots' honest sibling */
+  .v7count{
+    position:fixed;right:14px;bottom:calc(64px + env(safe-area-inset-bottom));z-index:6;
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.26em;
+    color:var(--ink-dim);pointer-events:none;
+    font-variant-numeric:tabular-nums;
+  }
+  .sc-dots i{width:7px;height:7px;}       /* one notch clearer */
+  /* first-visit swipe hint */
+  .v7swipe{
+    position:fixed;left:50%;bottom:calc(168px + env(safe-area-inset-bottom));z-index:6;
+    transform:translateX(-50%);
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink);background:rgba(0,0,0,.55);border:1px solid var(--line);
+    padding:10px 16px;pointer-events:none;
+    opacity:0;transition:opacity .6s var(--ease);
+  }
+  .v7swipe.on{opacity:1;}
+  .v7swipe i{display:inline-block;font-style:normal;animation:v7sw 1.6s var(--ease) infinite;}
+  @keyframes v7sw{0%,100%{transform:translateX(0)}50%{transform:translateX(-7px)}}
+}
+@media (max-width:860px) and (prefers-reduced-motion: reduce){
+  .v7swipe i{animation:none;}
+}
+
+/* ── CTA band, home & archive end on an invitation, not a fade-out ── */
+.v7cta{
+  margin-top:clamp(50px,8vw,110px);
+  border-top:1px solid var(--line-hard);
+  padding:clamp(48px,7vw,96px) var(--pad) clamp(72px,9vw,130px);
+  display:flex;flex-direction:column;gap:26px;align-items:flex-start;
+}
+.v7cta .v7cta-line{
+  font-family:var(--font-mono);font-weight:500;
+  font-size:clamp(1.25rem,3vw,2.5rem);line-height:1.3;color:var(--ink);
+  max-width:22ch;text-wrap:balance;
+}
+.v7cta .v7cta-links{display:flex;gap:clamp(18px,4vw,44px);flex-wrap:wrap;align-items:baseline;}
+.v7cta a{
+  font-size:clamp(.8rem,1.4vw,1rem);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink);padding:12px 0;min-height:44px;display:inline-flex;align-items:center;
+  border-bottom:1px solid var(--line-hard);
+  transition:letter-spacing .4s var(--ease),border-color .3s;
+}
+.v7cta a:hover{letter-spacing:.3em;border-color:var(--steel);}
+.v7cta .v7cta-mail{color:var(--ink-dim);border-bottom-color:var(--line);}
+
+/* menu: the standing invitation (flat menu only, the 3D menu keeps 4 plates) */
+.menu-cta{
+  display:block;margin-top:34px;
+  font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-dim);
+  padding:12px 0;min-height:44px;
+  transition:color .3s,letter-spacing .4s var(--ease);
+}
+.menu-cta:hover{color:var(--ink);letter-spacing:.34em;}
+.menu-cta em{font-style:normal;color:var(--ink-faint);margin-right:14px;font-size:10px;letter-spacing:.2em;}
+
+/* ── archive / list pages: the fixed foot gets a taller, surer fade ── */
+body.arch-body .w-foot{
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.88) 46%,#000 100%);
+  padding-top:34px;
+}
+
+/* ── 3D chrome, skip, first-entry hint, room index ─────────────── */
+/* the skip sits LEFT-MIDDLE, the sound invitation's mirror twin on the
+   other side of the screen. Small, quiet, clearly a control (hairline
+   underline + hover). Once the visitor launches, hall.js melts it away
+   over the whole door-approach + entry, so it is gone by arrival. */
+#g3skip{
+  position:fixed;left:var(--pad);top:50%;transform:translateY(-50%);z-index:60;
+  background:none;border:0;cursor:pointer;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--ink-dim);padding:14px 2px;min-height:44px;
+  border-bottom:1px solid var(--line);
+  opacity:0;transition:opacity .8s var(--ease),color .3s,letter-spacing .4s var(--ease);
+  pointer-events:none;
+}
+#g3skip.on{opacity:.85;pointer-events:auto;}
+#g3skip:hover{color:var(--ink);letter-spacing:.32em;border-color:var(--line-hard);}
+#v7hint{
+  position:fixed;left:50%;bottom:18vh;z-index:58;transform:translate(-50%,10px);
+  font-family:var(--font-mono);font-size:clamp(11px,1.3vw,14px);letter-spacing:.34em;
+  text-transform:uppercase;color:var(--ink);text-align:center;white-space:nowrap;
+  text-shadow:0 0 18px rgba(0,0,0,.9);
+  opacity:0;transition:opacity 1s var(--ease),transform 1s var(--ease);
+  pointer-events:none;
+}
+#v7hint.on{opacity:.95;transform:translate(-50%,0);}
+#v7hint small{display:block;margin-top:10px;font-size:9px;letter-spacing:.3em;color:var(--ink-dim);}
+/* the room index is a WHISPER, not a second menu: small, flush with the
+   foot's own left line (18px, the flag/instagram rail), quiet inks */
+#g3rooms{
+  position:fixed;left:18px;bottom:calc(44px + env(safe-area-inset-bottom));z-index:61;
+  display:flex;gap:13px;align-items:baseline;
+  font-family:var(--font-mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;
+  opacity:0;transition:opacity .9s var(--ease);
+}
+#g3rooms.on{opacity:.8;}
+#g3rooms a{color:var(--ink-ghost);padding:8px 0;transition:color .3s;position:relative;}
+/* on the archive (and any list page with the foot's dark fade) the whisper
+   would drown in the gradient, sit above it and lift the ink so it reads */
+body.arch-body #g3rooms{z-index:61;}
+body.arch-body #g3rooms.on{opacity:1;}
+body.arch-body #g3rooms a{color:var(--ink-dim);}
+body.arch-body #g3rooms a[aria-current]{color:var(--ink);}
+#g3rooms a:hover{color:var(--ink-dim);}
+#g3rooms a[aria-current]{color:var(--ink);}
+#g3rooms a[aria-current]::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:1px;background:var(--steel);}
+@media (max-width:860px){#g3rooms{display:none;}}
+@media (prefers-reduced-motion: reduce){
+  #v7hint,#g3skip,#g3rooms{transition:none;}
+}
+
+/* ═══ v7.3 · independent-panel findings ═══════════════════════════════
+   Header scrim + flat footer clearance (jury: mix-blend header ghost-
+   collision on flat/mobile; footer over the about page's last lines).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* the fixed top bar is mix-blend-mode:difference, beautiful over the 3D
+   void, but on a flat page a large light title scrolling under it inverts
+   the bar's own words into a ghost collision. A dark scrim sits BEHIND the
+   bar (z below it) only when the 3D room is NOT live, so light content
+   passing under always meets black first and the bar text stays legible.
+   The 3D pages (body.g3) never get it, their world stays untouched. */
+body:not(.g3)::before{
+  content:"";position:fixed;top:0;left:0;right:0;
+  height:calc(78px + env(safe-area-inset-top));
+  background:linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.34) 46%, rgba(0,0,0,0) 100%);
+  z-index:799;pointer-events:none;
+}
+
+/* the foot is mix-blend-difference too, a light line scrolling under it
+   ghost-collides the same way. A matching bottom scrim (behind the foot,
+   3D pages excepted) keeps the Instagram/Mail row legible over anything.
+   (The apparent geometric overlap the panel saw is clipped, unpainted
+   accordion text + fixed-element capture geometry, verified: nothing
+   visible sits under the foot; an OPENED accordion scrolls itself clear.) */
+body:not(.g3)::after{
+  content:"";position:fixed;left:0;right:0;bottom:0;
+  height:calc(58px + env(safe-area-inset-bottom));
+  background:linear-gradient(0deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.3) 52%, rgba(0,0,0,0) 100%);
+  z-index:59;pointer-events:none;   /* .w-foot is z-60 → scrim sits just under it */
+}
+/* the about page still gets breathing room below its last accordion */
+body.abt-body main{padding-bottom:calc(64px + env(safe-area-inset-bottom));}
+
+/* ═══ v8 · THE FIRST QUESTION, one white breath before anything loads:
+   which building? Black on white (the site's single inverted moment), the
+   wordmark on top, two doors below it. The choice holds for the visit;
+   the corner switch can always re-open the question's answer. ═══ */
+#veaAsk{position:fixed;inset:0;z-index:2147483200;background:#fff;color:#000;
+  display:flex;flex-direction:column;align-items:center;
+  font-family:var(--font-mono);-webkit-user-select:none;user-select:none;
+  padding:calc(22px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));
+  opacity:0;transition:opacity .4s ease;}
+#veaAsk.on{opacity:1;}
+#veaAsk.bye{opacity:0;pointer-events:none;transition:opacity .5s ease;}
+/* the ask wears the site's own cursor, only the invert ball, never the OS
+   hand/pointer (data.js draws #cur; here we just suppress the system arrow) */
+html.hascur #veaAsk,html.hascur #veaAsk *{cursor:none!important;}
+/* ── the DECIPHER LINE: one zone, bottom-centre, that reads out what the
+   pointer is on, a room label on the left, a mode rung on the right, or (when
+   the engine reports one) the media in front of you. It rests when nothing is
+   under the cursor. Same anchor in space and page, so it reads the same. ── */
+#veaDecipher{
+  position:fixed;left:50%;bottom:calc(58px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);
+  max-width:min(82vw,66ch);text-align:center;
+  font-family:var(--font-mono);font-size:clamp(.72rem,1vw,.9rem);
+  letter-spacing:.06em;line-height:1.45;color:#fff;mix-blend-mode:difference;
+  opacity:0;pointer-events:none;z-index:2147482800;
+  filter:blur(3px);
+  /* resolves OUT of a soft blur rather than popping, pairs with the JS
+     decode-on-reveal so the line deciphers itself in */
+  transition:opacity .5s var(--ease), filter .55s var(--ease);
+}
+#veaDecipher.on{opacity:.92;filter:blur(0);}
+/* when the hovered rung is the one you are already in, the line reads struck too */
+#veaDecipher.struck{text-decoration:line-through;text-decoration-thickness:1px;}
+@media (max-width:860px){ #veaDecipher{bottom:calc(74px + env(safe-area-inset-bottom,0px));font-size:.72rem;} }
+/* the SAME wordmark the site wears up top, the header's own PNG, not a
+   font echo, sitting where the header logo sits (centred, near the top).
+   The art is dark, so on this white screen it shows WITHOUT the header's
+   invert. */
+#veaAsk img.va-mark{margin-top:calc(2px + env(safe-area-inset-top,0px));
+  height:16px;width:auto;display:block;}
+@media (max-width:760px){ #veaAsk img.va-mark{height:22px;} }
+#veaAsk .va-opts{margin:auto 0;display:flex;flex-direction:column;align-items:stretch;
+  width:min(680px,94vw);}
+/* ONE AXIS. The door, its descriptor, the studio sentence and the footer all
+   stand on the screen's centre line, there is no second alignment on this
+   page to explain. */
+#veaAsk .va-opt{appearance:none;background:none;border:0;border-top:1px solid rgba(0,0,0,.22);
+  color:#000;font-family:var(--font-mono);text-align:center;cursor:pointer;
+  padding:clamp(22px,4.6vh,42px) clamp(10px,2vw,18px);
+  display:flex;flex-direction:column;align-items:center;gap:11px;
+  transform:translateY(12px);opacity:0;
+  transition:background .28s ease,color .28s ease,padding-left .28s ease,
+             transform .7s var(--ease),opacity .7s ease;}
+#veaAsk.on .va-opt{transform:none;opacity:1;}
+#veaAsk.on .va-opt:nth-of-type(2){transition-delay:0s,0s,0s,.09s,.09s;}
+#veaAsk .va-opt:last-of-type{border-bottom:1px solid rgba(0,0,0,.22);}
+#veaAsk .va-k{font-size:clamp(26px,6vw,46px);letter-spacing:.3em;text-transform:uppercase;line-height:1;}
+#veaAsk .va-d{font-size:clamp(9px,2.4vw,11px);letter-spacing:.22em;text-transform:uppercase;
+  opacity:.5;line-height:1.75;transition:opacity .28s;text-wrap:balance;max-width:34ch;
+  margin-inline:auto;}
+/* on a narrow phone the tracked descriptors used to orphan their last word
+   ("SOUND ON", "PRINT"), tighten the tracking so the rag balances */
+@media (max-width:400px){ #veaAsk .va-d{letter-spacing:.14em;} }
+@media (hover:hover){
+  /* the hover INVERTS, it does not indent: a sideways nudge would have slid
+     the words off the one axis this page is built on */
+  #veaAsk .va-opt:hover{background:#000;color:#fff;}
+  #veaAsk .va-opt:hover .va-d{opacity:.78;}
+}
+#veaAsk .va-opt:active{background:#000;color:#fff;}
+#veaAsk .va-foot{font-size:9px;letter-spacing:.3em;text-transform:uppercase;opacity:.38;
+  text-align:center;line-height:1.9;}
+/* the FIRST QUESTION is the site's only white surface, and it holds a real
+   keyboard trap, so the ring inherited from the dark site (1px --steel) sat
+   at about 1.7:1 on white, under the 3:1 floor, on the one screen where a
+   keyboard visitor is locked in. Here the ring is the ink itself. */
+#veaAsk :focus-visible{outline:2px solid #000;outline-offset:3px;}
+#veaAsk .va-opt:focus-visible{outline-offset:-4px;}
+/* the studio sentence under the two doors, the phone's only chance to read
+   what we do before it chooses. It is NOT shown on the desktop, where the
+   lobby's 360 overture already carries the same words. It never scrolls: the
+   dialog is a flex column, so this paragraph takes whatever height is left
+   over and its type is sized off the viewport, not off the copy. */
+#veaAsk .va-say{display:none;}
+@media (max-width:860px), (pointer:coarse){
+  #veaAsk{overflow:hidden;}
+  #veaAsk .va-say{
+    display:block;flex:0 1 auto;min-height:0;overflow:hidden;
+    /* THE VOIDS ARE EQUAL, and that is the whole geometry: three auto margins
+       in the column (above the doors, below the doors, below the sentence)
+       split whatever height is left into three identical bands. The sentence
+       is therefore centred in its own void by construction, not by a number
+       somebody picked. */
+    margin:0 0 auto;
+    /* and it is exactly as wide as the hairlines above it, so a justified
+       paragraph's two flush edges land on the ends of the rules, the last
+       line alone runs left, the way a set paragraph closes */
+    width:min(680px,94vw);max-width:none;
+    text-align:justify;text-align-last:left;
+    font-size:clamp(8.5px,min(2.5vw,1.32vh),11px);
+    line-height:1.62;letter-spacing:.02em;opacity:.62;
+  }
+  /* on a short phone the doors keep their scale and the sentence gives way
+     rather than pushing the footer off the screen */
+  @media (max-height:620px){ #veaAsk .va-say{font-size:clamp(8px,1.15vh,9.5px);line-height:1.5;} }
+}
+
+/* v8 · the MODE toggle rides the OPEN MENU's right flank, the active word
+   is struck through and refuses the click (you are already standing there) */
+#menuMode{position:absolute;right:clamp(22px,5vw,64px);top:50%;transform:translateY(-50%);
+  font-family:var(--font-mono);font-size:clamp(16px,1.8vw,21px);letter-spacing:.26em;text-transform:uppercase;
+  display:flex;flex-direction:column;gap:18px;align-items:flex-end;text-align:right;z-index:2;}
+#menuMode .mm-t{font-size:9px;letter-spacing:.34em;color:var(--ink-ghost);margin-bottom:2px;}
+#menuMode a{color:var(--ink);text-decoration:none;padding:4px 0;
+  transition:letter-spacing .3s var(--ease),opacity .3s;}
+#menuMode a:hover{letter-spacing:.34em;}
+@media (max-width:760px){
+  #menuMode{right:20px;top:auto;transform:none;
+    bottom:calc(92px + env(safe-area-inset-bottom,0px));gap:14px;font-size:15px;}
+}

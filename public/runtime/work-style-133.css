@@ -1,0 +1,19 @@
+
+/* v3: the film clicked on works GROWS into this very stage (cross-page
+   morph). When the morph drives the entrance, the descend curtain
+   yields, one move, never two. */
+/* desktop only, a phone must never inherit the default cross-document
+   fade (a frozen frame of the previous page); works.html scopes its
+   @view-transition the same way, and BOTH ends must agree */
+@media (min-width:861px) and (pointer: fine){
+  @view-transition{navigation:auto;}
+  main{view-transition-name:work-hero;}
+}
+html.vt-in body.wk-reveal main{animation:none;}
+/* v4: the camera already WALKED into this work inside the salon, the
+   page continues the move: no second curtain, just a short breath up
+   out of black. */
+html.g3seam body.wk-reveal main{animation:g3breath .45s ease both;}
+@keyframes g3breath{from{opacity:0;}to{opacity:1;}}
+::view-transition-group(work-hero){animation-duration:.55s;}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;}

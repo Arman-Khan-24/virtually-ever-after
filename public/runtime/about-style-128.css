@@ -1,0 +1,11 @@
+
+/* about, sections rise into view once, softly staggered */
+.works-head,.acc,.w-foot{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.9,.24,1)}
+.works-head.on,.acc.on,.w-foot.on{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.works-head,.acc,.w-foot{opacity:1;transform:none;transition:none}}
+/* FLAT SAFETY NET: in the 2D page these sections must NEVER stay hidden even if
+   the JS reveal never ran (e.g. it bailed while an ASK question was pending).
+   Unlike works (which reveals via [data-reveal] that vflat already covers),
+   about's sections reveal only via the JS-added .on, so the flat class reveals
+   them here directly. This is why about could land black and works never did. */
+html.vflat .works-head,html.vflat .acc,html.vflat .w-foot{opacity:1!important;transform:none!important}

@@ -1,0 +1,137 @@
+
+        @font-face {
+            font-family: 'Telegrama Render';
+            src: url('/assets/offline/d2b4d6f8960f736e.ttf') format('truetype');
+            font-display: block;
+        }
+        :root { 
+            --ui-color: #000000; 
+            --bg-color: #ffffff; 
+            --font-main: 'Telegrama Render', sans-serif; 
+        }
+        
+        body, html { 
+            margin: 0; padding: 0; 
+            font-family: var(--font-main); 
+            background-color: var(--bg-color); 
+            color: var(--ui-color); 
+            height: 100vh; 
+            width: 100%;
+            overflow: hidden; /* Sayfa genelinde kaydırma kesinlikle kapalı */
+        }
+        
+        .vea-panel { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(0, 0, 0, 0.1); 
+            border-radius: 24px; 
+            width: 90%; 
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Calendar Grid Scaling */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+        .calendar-day { 
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center; 
+            border-radius: 50%; cursor: pointer; font-size: 0.65rem; transition: all 0.2s ease; 
+            border: 1px solid transparent; width: 100%;
+        }
+        .calendar-day:hover:not(.disabled) { background: #f0f0f0; border-color: var(--ui-color); }
+        .calendar-day.selected { background: var(--ui-color); color: white; }
+        .calendar-day.disabled { opacity: 0.1; cursor: not-allowed; }
+
+        /* General UI Elements */
+        .time-slot { 
+            padding: 10px 0; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; 
+            text-align: center; cursor: pointer; font-size: 0.6rem; transition: all 0.2s ease; 
+            width: 100%; 
+        }
+        .time-slot:hover { border-color: var(--ui-color); background: #fafafa; }
+        .time-slot.selected { background: var(--ui-color); color: white; border-color: var(--ui-color); }
+
+        .option-chip { 
+            border: 1px solid rgba(0,0,0,0.1); padding: 4px 8px; border-radius: 8px; 
+            cursor: pointer; font-size: 0.55rem; text-transform: uppercase;
+        }
+        .option-chip.active { background: var(--ui-color); color: white; }
+
+        input, textarea { 
+            background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; 
+            padding: 8px 12px; width: 100% !important; font-family: inherit; outline: none; box-sizing: border-box; 
+            font-size: 0.7rem !important;
+        }
+
+        .service-chip { 
+            border: 1px solid rgba(0,0,0,0.1); padding: 4px 10px; border-radius: 15px; 
+            cursor: pointer; font-size: 0.5rem; text-transform: uppercase; 
+        }
+        .service-chip.active { background: var(--ui-color); color: white; }
+
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { height: 2px; background: #eee; }
+        input[type=range]::-webkit-slider-thumb { height: 14px; width: 14px; border-radius: 50%; background: var(--ui-color); -webkit-appearance: none; margin-top: -6px; }
+
+        .submit-btn { 
+            background: var(--ui-color); color: white; padding: 12px; border-radius: 12px; 
+            width: 100%; text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; 
+        }
+        .nav-btn { cursor: pointer; padding: 5px; opacity: 0.5; }
+        
+        @media (max-width: 768px) { 
+            .desktop-only { display: none !important; }
+            .vea-panel { 
+                width: 95%; 
+                padding: 1.5rem !important; 
+                height: auto;
+                max-height: 80vh;
+            } 
+            h1 { font-size: 1.3rem !important; margin: 10px 0 !important; } 
+            
+            /* Step 1 Inner Slider for Mobile */
+            .mobile-step1-slider {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                width: 100%;
+            }
+            .mobile-step1-slider > div {
+                flex: 0 0 100%;
+                scroll-snap-align: start;
+                padding: 0 5px;
+                box-sizing: border-box;
+            }
+            .mobile-step1-slider::-webkit-scrollbar { display: none; }
+            
+            /* Slots Layout for Mobile */
+            .time-slots-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px;
+            }
+
+            .info-section { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+            .chips-wrapper { max-height: 70px; overflow-y: auto; gap: 4px; }
+        }
+
+        /* Desktop Layout (Stay untouched) */
+        @media (min-width: 769px) {
+            .time-slots-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            /* Büyütülmüş Desktop Logo ve Başlık */
+            .desktop-logo { width: 320px !important; margin-bottom: 40px !important; }
+            .desktop-title { font-size: 4rem !important; line-height: 0.95 !important; }
+        }
+        
+        .fade-in { animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    

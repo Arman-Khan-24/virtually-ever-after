@@ -1,0 +1,666 @@
+{
+  "files": [
+    {
+      "path": "/assets/offline/09bc1bb69d7b1a69.png",
+      "bytes": 2582
+    },
+    {
+      "path": "/assets/offline/674ddc19de6d176f.png",
+      "bytes": 3245723
+    },
+    {
+      "path": "/assets/offline/828d5f03ec732657.mp4",
+      "bytes": 55196300
+    },
+    {
+      "path": "/assets/offline/61334f7f08113e0a.mp4",
+      "bytes": 74605351
+    },
+    {
+      "path": "/assets/offline/de9f6402a238cc40.mp4",
+      "bytes": 263383998
+    },
+    {
+      "path": "/assets/offline/b1257f6718b99d14.mp4",
+      "bytes": 10205546
+    },
+    {
+      "path": "/assets/offline/77e4487154254a7e.mp4",
+      "bytes": 27068234
+    },
+    {
+      "path": "/assets/offline/21f2d5384d04a49b.mp4",
+      "bytes": 35260821
+    },
+    {
+      "path": "/assets/offline/0ad2405afedf0dfc.mp4",
+      "bytes": 121087118
+    },
+    {
+      "path": "/assets/offline/9e26259a8bb70207.mp4",
+      "bytes": 65473678
+    },
+    {
+      "path": "/assets/offline/d1d51ef24735ac90.mp4",
+      "bytes": 164945760
+    },
+    {
+      "path": "/assets/offline/ec25c0541badfbfa.mp4",
+      "bytes": 145556425
+    },
+    {
+      "path": "/assets/offline/9d1cf8d353333280.mp4",
+      "bytes": 115366469
+    },
+    {
+      "path": "/assets/offline/a5288a6fae9581eb.mp4",
+      "bytes": 150507827
+    },
+    {
+      "path": "/assets/offline/c900045bf9ad1e39.mp4",
+      "bytes": 357812722
+    },
+    {
+      "path": "/assets/offline/76be01c3bab436a4.mp4",
+      "bytes": 127759285
+    },
+    {
+      "path": "/assets/offline/e459d5a37aee88a7.mp4",
+      "bytes": 145609193
+    },
+    {
+      "path": "/assets/offline/736fa2c0dfb47c49.png",
+      "bytes": 6510
+    },
+    {
+      "path": "/assets/offline/1404f7178aaeaa2e.png",
+      "bytes": 6083
+    },
+    {
+      "path": "/assets/offline/fdb28994460a7b08.png",
+      "bytes": 2648767
+    },
+    {
+      "path": "/assets/offline/d208c5b0239008f2.mp4",
+      "bytes": 25972228
+    },
+    {
+      "path": "/assets/offline/d2b4d6f8960f736e.ttf",
+      "bytes": 16816
+    },
+    {
+      "path": "/assets/offline/be9eea3752cb9c2a.pdf",
+      "bytes": 7414401
+    },
+    {
+      "path": "/assets/offline/79db64c1c409b4a5.mp4",
+      "bytes": 20754255
+    },
+    {
+      "path": "/assets/offline/f53e71e69370e10b.png",
+      "bytes": 3437335
+    },
+    {
+      "path": "/assets/offline/d18e5ca41f34f84f.mp4",
+      "bytes": 10270421
+    },
+    {
+      "path": "/assets/offline/721d388563dab8dd.mp4",
+      "bytes": 14143456
+    },
+    {
+      "path": "/assets/offline/c1d56db3a1081d1f.mp4",
+      "bytes": 9135739
+    },
+    {
+      "path": "/assets/offline/2bdc9a6ff24d7981.mp4",
+      "bytes": 9768593
+    },
+    {
+      "path": "/assets/offline/2a05510f9c695e2a.mp4",
+      "bytes": 16606644
+    },
+    {
+      "path": "/assets/offline/e9fb256e37c18b7f.mp4",
+      "bytes": 10143271
+    },
+    {
+      "path": "/assets/offline/9001bec7df1e0448.mp4",
+      "bytes": 6910272
+    },
+    {
+      "path": "/assets/offline/ae06d7e988ff8b33.mp4",
+      "bytes": 10280066
+    },
+    {
+      "path": "/assets/offline/a838494d19cf37dd.mp4",
+      "bytes": 6561292
+    },
+    {
+      "path": "/assets/offline/b762d4ba33a74bcb.png",
+      "bytes": 1104628
+    },
+    {
+      "path": "/assets/offline/d6932c0a17d06cf9.png",
+      "bytes": 3747515
+    },
+    {
+      "path": "/assets/offline/eec5267ac446f66d.jpg",
+      "bytes": 112498
+    },
+    {
+      "path": "/assets/offline/b0ed9f3823ac892e.png",
+      "bytes": 625925
+    },
+    {
+      "path": "/assets/offline/1aeeeca659e4b289.mp4",
+      "bytes": 3526672
+    },
+    {
+      "path": "/assets/offline/b59d332db72525f6.jpg",
+      "bytes": 213425
+    },
+    {
+      "path": "/assets/offline/53275129790dd177.png",
+      "bytes": 1693100
+    },
+    {
+      "path": "/assets/offline/7282e055754bacfc.mp4",
+      "bytes": 7549744
+    },
+    {
+      "path": "/assets/offline/83c787cac7c9fd25.mp4",
+      "bytes": 15656444
+    },
+    {
+      "path": "/assets/offline/36a712458dc1e2e4.mp4",
+      "bytes": 20823269
+    },
+    {
+      "path": "/assets/offline/b3b83bd7d1095d0a.mp4",
+      "bytes": 20450235
+    },
+    {
+      "path": "/assets/offline/7f3241bde06c118a.mp4",
+      "bytes": 9328142
+    },
+    {
+      "path": "/assets/offline/3ae7be04eeb83289.png",
+      "bytes": 482015
+    },
+    {
+      "path": "/assets/offline/727e6e810a31a413.png",
+      "bytes": 1542748
+    },
+    {
+      "path": "/assets/offline/f2f86340fc72a1f8.png",
+      "bytes": 8021345
+    },
+    {
+      "path": "/assets/offline/6c7f8f2a592022da.mp3",
+      "bytes": 9105223
+    },
+    {
+      "path": "/assets/offline/602ea00827e8732c.png",
+      "bytes": 2798705
+    },
+    {
+      "path": "/assets/offline/382f7b026caf5a31.pdf",
+      "bytes": 14740784
+    },
+    {
+      "path": "/assets/offline/87201d4468df7d8f.pdf",
+      "bytes": 3434632
+    },
+    {
+      "path": "/assets/offline/2070f9b46d973a17.pdf",
+      "bytes": 10060783
+    },
+    {
+      "path": "/assets/offline/dc33d69b2729f3d3.pdf",
+      "bytes": 2201357
+    },
+    {
+      "path": "/assets/offline/138c2c54c0c3df80.mp3",
+      "bytes": 9046686
+    },
+    {
+      "path": "/assets/offline/0d2840045010f199.png",
+      "bytes": 3584035
+    },
+    {
+      "path": "/assets/offline/7facf5e5eb9da652.mp3",
+      "bytes": 262701
+    },
+    {
+      "path": "/assets/offline/1649c9cdbf5a925c.jpg",
+      "bytes": 456381
+    },
+    {
+      "path": "/assets/offline/0995595a4c8d2d5b.jpg",
+      "bytes": 108266
+    },
+    {
+      "path": "/assets/offline/1fae56db341f5a35.mp3",
+      "bytes": 721197
+    },
+    {
+      "path": "/assets/offline/ad2e414bb7932523.png",
+      "bytes": 2763439
+    },
+    {
+      "path": "/assets/offline/999e08288fa2f764.pdf",
+      "bytes": 23536519
+    },
+    {
+      "path": "/assets/offline/efaa4f68dff0132b.jpg",
+      "bytes": 114008
+    },
+    {
+      "path": "/assets/offline/f15e843d98b7c00e.pdf",
+      "bytes": 6984445
+    },
+    {
+      "path": "/assets/offline/61c1aae4c5d50234.png",
+      "bytes": 1033005
+    },
+    {
+      "path": "/assets/offline/ae8399a61a56c7f1.mp3",
+      "bytes": 118701
+    },
+    {
+      "path": "/assets/offline/945c9d0d5df8f172.mp3",
+      "bytes": 361197
+    },
+    {
+      "path": "/assets/offline/01fa03a793cf7c17.mp4",
+      "bytes": 9407654
+    },
+    {
+      "path": "/assets/offline/956b9bd82597a1b0.mp4",
+      "bytes": 13137063
+    },
+    {
+      "path": "/assets/offline/4bb968e33ccaf327.mp4",
+      "bytes": 2413466
+    },
+    {
+      "path": "/assets/offline/9ecdf2ba4b570ef8.mp4",
+      "bytes": 6817838
+    },
+    {
+      "path": "/assets/offline/cf9824c328f4d952.mp4",
+      "bytes": 5931523
+    },
+    {
+      "path": "/assets/offline/fda4e023a5e14bb9.mp4",
+      "bytes": 13408811
+    },
+    {
+      "path": "/assets/offline/a08bad65f0e1d5ce.mp3",
+      "bytes": 165571
+    },
+    {
+      "path": "/assets/offline/e4712ed01566cc9e.mp4",
+      "bytes": 24076178
+    },
+    {
+      "path": "/assets/offline/671080fd8186cbca.mp4",
+      "bytes": 10362874
+    },
+    {
+      "path": "/assets/offline/44f90600d185e4f5.jpg",
+      "bytes": 6671849
+    },
+    {
+      "path": "/assets/offline/7a36426ac73249c6.png",
+      "bytes": 36447
+    },
+    {
+      "path": "/assets/offline/740edb4b8aa4b32c.png",
+      "bytes": 110934
+    },
+    {
+      "path": "/assets/offline/139fa317f6813ecf.mp3",
+      "bytes": 11627800
+    },
+    {
+      "path": "/assets/offline/428c902134c636fe.mp4",
+      "bytes": 19875050
+    },
+    {
+      "path": "/assets/offline/526eef25adb23164.png",
+      "bytes": 39685
+    },
+    {
+      "path": "/assets/offline/c358b38a47f7cc9c.mp4",
+      "bytes": 70412850
+    },
+    {
+      "path": "/assets/offline/bee8d37ef0ebc214.mp4",
+      "bytes": 2260787
+    },
+    {
+      "path": "/assets/offline/6c57fc2618468442.mp4",
+      "bytes": 49313214
+    },
+    {
+      "path": "/assets/offline/70210b52d2d4ff5c.mp4",
+      "bytes": 5659361
+    },
+    {
+      "path": "/assets/offline/3e74c57d829c24e8.mp4",
+      "bytes": 5339299
+    },
+    {
+      "path": "/assets/offline/36680b5c176ea585.mp4",
+      "bytes": 7182229
+    },
+    {
+      "path": "/assets/offline/7801d443bfeadd70.mp4",
+      "bytes": 11527942
+    },
+    {
+      "path": "/assets/offline/63f779885b51fd3e.mp4",
+      "bytes": 67469237
+    },
+    {
+      "path": "/assets/offline/e552683afa1feaf0.mp4",
+      "bytes": 6514846
+    },
+    {
+      "path": "/assets/img/VEA-LOGO.png",
+      "bytes": 313273
+    },
+    {
+      "path": "/assets/img/example.png",
+      "bytes": 14532
+    },
+    {
+      "path": "/assets/img/favicon-64.png",
+      "bytes": 3308
+    },
+    {
+      "path": "/assets/img/menu2.webp",
+      "bytes": 107804
+    },
+    {
+      "path": "/assets/img/og-share.png",
+      "bytes": 37774
+    },
+    {
+      "path": "/assets/img/veacrop.webp",
+      "bytes": 14676
+    },
+    {
+      "path": "/assets/pdf/PDF_v2-5mbs-c2w2.pdf",
+      "bytes": 5583639
+    },
+    {
+      "path": "/assets/video/logo-anim.mp4",
+      "bytes": 1366386
+    },
+    {
+      "path": "/assets/video/logo-anim.webm",
+      "bytes": 1813090
+    },
+    {
+      "path": "/fonts/ibm-plex-mono-400.woff2",
+      "bytes": 14708
+    },
+    {
+      "path": "/fonts/ibm-plex-mono-500.woff2",
+      "bytes": 14888
+    },
+    {
+      "path": "/img/flag-lu.png",
+      "bytes": 240
+    },
+    {
+      "path": "/assets/offline/15f64366f35b3591.png",
+      "bytes": 13758
+    },
+    {
+      "path": "/assets/offline/1f64305e61a627f5.mp4",
+      "bytes": 2755901
+    },
+    {
+      "path": "/assets/offline/265d7dffad9dfc02.mp4",
+      "bytes": 4455136
+    },
+    {
+      "path": "/assets/offline/62fe38d62c143130.mp4",
+      "bytes": 6166133
+    },
+    {
+      "path": "/assets/offline/47e8ae659bd38dea.mp4",
+      "bytes": 401257
+    },
+    {
+      "path": "/assets/offline/ef5f17bc5bacae6e.mp4",
+      "bytes": 44380721
+    },
+    {
+      "path": "/assets/offline/eefe2640b047bbf2.mp4",
+      "bytes": 32180915
+    },
+    {
+      "path": "/assets/offline/e752caaa550dd225.mp4",
+      "bytes": 15304408
+    },
+    {
+      "path": "/assets/offline/0ada75731d995c80.mp4",
+      "bytes": 13185728
+    },
+    {
+      "path": "/assets/offline/d404544e7be0a8c9.mp4",
+      "bytes": 7853143
+    },
+    {
+      "path": "/assets/offline/763c6206b48f350d.mp4",
+      "bytes": 1730319
+    },
+    {
+      "path": "/assets/offline/f29a46a552a878e9.mp4",
+      "bytes": 782289
+    },
+    {
+      "path": "/assets/offline/b64ff4c42320e853.mp4",
+      "bytes": 750903
+    },
+    {
+      "path": "/assets/offline/41fcf2f2647c32be.mp4",
+      "bytes": 17160903
+    },
+    {
+      "path": "/assets/offline/f9b565cd5a74dd7e.mp4",
+      "bytes": 6971907
+    },
+    {
+      "path": "/assets/offline/b348eaa8d5c3bef5.mp4",
+      "bytes": 66693612
+    },
+    {
+      "path": "/assets/offline/a77ed33157743999.mp4",
+      "bytes": 290230645
+    },
+    {
+      "path": "/assets/offline/53045798a0b3ee5b.mp4",
+      "bytes": 13949254
+    },
+    {
+      "path": "/assets/offline/931e0e05f040a2ee.mp4",
+      "bytes": 3148591
+    },
+    {
+      "path": "/assets/offline/4749d9bf0f2db5fb.mp4",
+      "bytes": 68149912
+    },
+    {
+      "path": "/assets/offline/637fd08ad8282cd1.mp4",
+      "bytes": 922505
+    },
+    {
+      "path": "/assets/offline/0692151d2032c27b.mp4",
+      "bytes": 11244517
+    },
+    {
+      "path": "/assets/offline/5f77c40f24156510.mp4",
+      "bytes": 5037484
+    },
+    {
+      "path": "/assets/offline/3536b21b3070ee77.mp4",
+      "bytes": 3823930
+    },
+    {
+      "path": "/assets/offline/0ec4f015500c9b34.mp4",
+      "bytes": 1255842
+    },
+    {
+      "path": "/assets/offline/24823694e808a629.mp4",
+      "bytes": 19110728
+    },
+    {
+      "path": "/assets/offline/61ed8cf5e39b5917.mp4",
+      "bytes": 4536850
+    },
+    {
+      "path": "/assets/offline/1d71c3ac40298c0e.mp4",
+      "bytes": 23230338
+    },
+    {
+      "path": "/assets/offline/a642431ee3244cab.mp4",
+      "bytes": 3745348
+    },
+    {
+      "path": "/assets/offline/459ac9793731d9d1.mp4",
+      "bytes": 3799193
+    },
+    {
+      "path": "/assets/offline/2f2cc22be5439fb1.mp4",
+      "bytes": 17550066
+    },
+    {
+      "path": "/assets/offline/12cf969f35be819a.mp4",
+      "bytes": 164662148
+    },
+    {
+      "path": "/assets/offline/73975c10260b8bf5.mp4",
+      "bytes": 59484380
+    },
+    {
+      "path": "/assets/offline/01a57ab70a059697.mp4",
+      "bytes": 1563840
+    },
+    {
+      "path": "/assets/offline/4412c0f937823e43.mp4",
+      "bytes": 2557856
+    },
+    {
+      "path": "/assets/offline/aa9cac2202d6188c.mp4",
+      "bytes": 12605987
+    },
+    {
+      "path": "/assets/offline/69ed6200f14d95e0.mp4",
+      "bytes": 28495821
+    },
+    {
+      "path": "/assets/offline/e8a3de65394102e2.mp4",
+      "bytes": 15674156
+    },
+    {
+      "path": "/assets/offline/965e488b07723e34.mp4",
+      "bytes": 12147713
+    },
+    {
+      "path": "/assets/offline/4ffd4941e270bddf.mp4",
+      "bytes": 195823825
+    },
+    {
+      "path": "/assets/offline/c87162c9b89dcf1f.mp4",
+      "bytes": 2927471
+    },
+    {
+      "path": "/assets/offline/d5b53e291b1b6b0e.mp4",
+      "bytes": 3893319
+    },
+    {
+      "path": "/assets/offline/038e356092d3e944.mp4",
+      "bytes": 15203631
+    },
+    {
+      "path": "/assets/offline/32924d20fd68568c.mp4",
+      "bytes": 21681309
+    },
+    {
+      "path": "/assets/offline/258249d8fc1fd7dd.mp4",
+      "bytes": 1455979
+    },
+    {
+      "path": "/assets/offline/9c0f94b249280bd6.mp4",
+      "bytes": 163706724
+    },
+    {
+      "path": "/assets/offline/3b93ed7d94ee11c8.mp4",
+      "bytes": 46033846
+    },
+    {
+      "path": "/assets/offline/fbcac95e97f7e583.mp4",
+      "bytes": 25670942
+    },
+    {
+      "path": "/assets/offline/e08e0cb835bb4739.mp4",
+      "bytes": 222324
+    },
+    {
+      "path": "/assets/offline/e61919a0e0a7486b.mp4",
+      "bytes": 893505
+    },
+    {
+      "path": "/assets/offline/a41640f0e7e7a1f1.mp4",
+      "bytes": 2497827
+    },
+    {
+      "path": "/assets/offline/89e1887d41acbd59.mp4",
+      "bytes": 54081302
+    },
+    {
+      "path": "/assets/offline/d444fbab672bb446.mp4",
+      "bytes": 4148748
+    },
+    {
+      "path": "/assets/offline/d7e164a8208a7d42.mp4",
+      "bytes": 171155831
+    },
+    {
+      "path": "/assets/offline/796f2018fb0dc8cd.mp4",
+      "bytes": 5654437
+    },
+    {
+      "path": "/assets/offline/d73922b5d429930c.mp4",
+      "bytes": 1568210
+    },
+    {
+      "path": "/assets/offline/d543a46f22487ba0.mp4",
+      "bytes": 4996518
+    },
+    {
+      "path": "/assets/offline/ef78fc0201b8da89.mp4",
+      "bytes": 3389287
+    },
+    {
+      "path": "/assets/offline/0c0bbb4835973b5f.mp4",
+      "bytes": 2561375
+    },
+    {
+      "path": "/assets/offline/2032b4d778dc9426.mp4",
+      "bytes": 2986848
+    },
+    {
+      "path": "/assets/offline/ddf9c914c940b9aa.mp4",
+      "bytes": 4327160
+    }
+  ],
+  "unavailableAssets": [],
+  "note": "One invalid URL extracted from CSS was discarded; all required mapped media downloaded successfully."
+}

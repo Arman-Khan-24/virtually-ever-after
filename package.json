@@ -1,0 +1,24 @@
+{
+  "name": "virtually-ever-after-clone",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "verify": "node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^6.5.438",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@vitejs/plugin-react": "^6.3.0",
+    "playwright": "^1.65.0",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.7"
+  }
+}

@@ -1,0 +1,27 @@
+
+#g3boot{
+  position:fixed;inset:0;z-index:1200;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+}
+#g3boot[hidden]{display:none;}
+/* on a ROOM-TO-ROOM turn #g3boot only bridges the frozen pixels, the loader
+   chrome (mark/bar/pct) hides so nothing overlays the seamless hand-over */
+#g3boot.bridge .loader-mark,#g3boot.bridge .loader-bar,#g3boot.bridge .loader-pct{display:none;}
+#g3boot img{height:14px;width:auto;filter:invert(1);opacity:.45;}
+#g3boot.lift{opacity:0;transition:opacity .6s ease;pointer-events:none;}
+canvas.g3c{
+  position:fixed;inset:0;z-index:1;display:block;
+  opacity:0;pointer-events:none;transition:opacity 1.1s ease;
+  touch-action:none;cursor:none;   /* invert ball (#cur) is the only pointer over the room */
+}
+body.g3 canvas.g3c{opacity:1;pointer-events:auto;}
+body.g3 main{display:none!important;}
+#g3info{
+  position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:22;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);pointer-events:none;
+  /* pre-line: the featured screen reads as TWO lines, FEATURED WORKS
+     above, the work's name below */
+  white-space:pre-line;text-align:center;line-height:1.7;
+  mix-blend-mode:difference;max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+}

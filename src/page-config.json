@@ -1,0 +1,166 @@
+{
+  "index": {
+    "title": "VEA \u00b7 Virtually Ever After | Architect-Led Creative Studio, Luxembourg",
+    "bodyClass": "",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/index-style-21.css",
+      "/fonts/plex.css",
+      "/style.css?v=43",
+      "/runtime/index-style-143.css",
+      "/runtime/index-style-582.css"
+    ],
+    "scripts": [
+      "/runtime/index-0.js",
+      "/runtime/index-2.js",
+      "/runtime/index-4.js",
+      "/runtime/index-5.js",
+      "/runtime/index-6.js",
+      "/runtime/index-7.js",
+      "/data.js?v=28",
+      "/runtime/index-10.js",
+      "/sound.js?v=2",
+      "/flat-ui.js?v=1"
+    ]
+  },
+  "works": {
+    "title": "Works \u00b7 VEA | Virtually Ever After | Selected Projects",
+    "bodyClass": "sc-body",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/works-style-20.css",
+      "/fonts/plex.css",
+      "/style.css?v=43",
+      "/runtime/works-style-383.css"
+    ],
+    "scripts": [
+      "/runtime/works-0.js",
+      "/runtime/works-2.js",
+      "/runtime/works-4.js",
+      "/runtime/works-5.js",
+      "/runtime/works-6.js",
+      "/runtime/works-7.js",
+      "/data.js?v=28",
+      "/runtime/works-10.js",
+      "/runtime/works-11.js",
+      "/sound.js?v=2",
+      "/flat-ui.js?v=1"
+    ]
+  },
+  "archive": {
+    "title": "Archive \u00b7 VEA | Virtually Ever After | All Works Index",
+    "bodyClass": "arch-body",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/archive-style-14.css",
+      "/fonts/plex.css",
+      "/style.css?v=43"
+    ],
+    "scripts": [
+      "/data.js?v=28",
+      "/runtime/archive-4.js",
+      "/runtime/archive-5.js",
+      "/sound.js?v=2",
+      "/flat-ui.js?v=1"
+    ]
+  },
+  "about": {
+    "title": "About \u00b7 VEA | Virtually Ever After | Architects Deniz Agaoglu Ozen & Yigit Ozen, Luxembourg",
+    "bodyClass": "abt-body",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/about-style-21.css",
+      "/fonts/plex.css",
+      "/style.css?v=43",
+      "/runtime/about-style-128.css",
+      "/runtime/about-style-871.css"
+    ],
+    "scripts": [
+      "/runtime/about-0.js",
+      "/runtime/about-2.js",
+      "/runtime/about-4.js",
+      "/runtime/about-5.js",
+      "/runtime/about-6.js",
+      "/runtime/about-7.js",
+      "/runtime/about-8.js",
+      "/runtime/about-9.js",
+      "/runtime/about-11.js",
+      "/runtime/about-12.js",
+      "/sound.js?v=2",
+      "/flat-ui.js?v=1"
+    ]
+  },
+  "start": {
+    "title": "Start a project \u00b7 VEA | Virtually Ever After",
+    "bodyClass": "start-body",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/start-style-13.css",
+      "/fonts/plex.css",
+      "/style.css?v=43",
+      "/runtime/start-style-64.css"
+    ],
+    "scripts": [
+      "/runtime/start-2.js"
+    ]
+  },
+  "book": {
+    "title": "VEA | BOOK A SESSION",
+    "bodyClass": "flex flex-col items-center justify-center h-screen p-4 overflow-hidden",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/book-style-22.css"
+    ],
+    "scripts": [
+      "/runtime/book-1.js"
+    ]
+  },
+  "work": {
+    "title": "Work \u00b7 VEA | Virtually Ever After",
+    "bodyClass": "wk-page",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/work-style-20.css",
+      "/fonts/plex.css",
+      "/style.css?v=43",
+      "/runtime/work-style-133.css",
+      "/runtime/work-style-410.css",
+      "/runtime/work-style-417.css"
+    ],
+    "scripts": [
+      "/runtime/work-0.js",
+      "/runtime/work-2.js",
+      "/runtime/work-5.js",
+      "/runtime/work-6.js",
+      "/runtime/work-7.js",
+      "/runtime/work-8.js",
+      "/runtime/work-9.js",
+      "/data.js?v=28",
+      "/runtime/work-12.js",
+      "/runtime/work-13.js",
+      "/sound.js?v=2",
+      "/flat-ui.js?v=1"
+    ]
+  },
+  "legal": {
+    "title": "Legal Notice - Deniz Agaoglu Ozen",
+    "bodyClass": "",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/legal-style-19.css"
+    ],
+    "scripts": []
+  },
+  "flipbook": {
+    "title": "VEA | FLIPBOOK",
+    "bodyClass": "",
+    "bodyStyle": "",
+    "styles": [
+      "/runtime/flipbook.css"
+    ],
+    "scripts": [
+      "/runtime/flipbook.js",
+      "/flat-ui.js?v=1"
+    ]
+  }
+}

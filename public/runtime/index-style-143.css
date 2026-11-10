@@ -1,0 +1,15 @@
+
+/* Honors belongs to the opening choice only; it leaves on the choice tap. */
+#veaAsk #awwwards{
+  position:fixed;z-index:999;top:50%;right:0;
+  transform:translateY(-50%);width:69.004px;line-height:0;
+}
+#veaAsk #awwwards a{display:block;border:1px solid #000;}
+#veaAsk #awwwards svg{display:block;width:100%;height:auto;}
+#veaAsk #awwwards a:focus-visible{outline-offset:-2px;}
+html:not(.veaask) #veaAsk #awwwards,
+#veaAsk.bye #awwwards{display:none;}
+@media (max-width:860px), (pointer:coarse){
+  #veaAsk #awwwards{width:41.6px;}
+  #veaAsk .va-opts,#veaAsk .va-say{max-width:calc(100vw - 107.2px);}
+}

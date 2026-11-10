@@ -1,0 +1,7 @@
+
+@media (min-width:861px) and (hover:hover) and (pointer:fine){
+  .wk-worksdex .sc-cat{transition:transform .25s var(--ease);}
+  .wk-worksdex .sc-thumb{transition:filter .8s var(--ease);}
+  .wk-worksdex .sc-item.breathe .sc-thumb{filter:brightness(1.5);}
+  .wk-worksdex .sc-item.kbd .sc-thumb{filter:brightness(1.35);}   /* light, never a frame */
+}
