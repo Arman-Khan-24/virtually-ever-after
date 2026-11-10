@@ -25,6 +25,8 @@ window.__loadLocalPdfJs = () => {
 function script(src) {
   return new Promise((resolve, reject) => {
     const element = document.createElement("script");
+    // Fetch all controllers together while preserving their execution order.
+    element.async = false;
     element.src = src;
     element.onload = resolve;
     element.onerror = () => reject(new Error(`Could not load ${src}`));
@@ -67,7 +69,7 @@ export async function startPage(name) {
     return originalAdd.call(this, event, callback, options);
   };
   try {
-    for (const src of configs[name].scripts) await script(src);
+    await Promise.all(configs[name].scripts.map(script));
   } finally {
     document.addEventListener = originalAdd;
     for (const callback of callbacks) {
