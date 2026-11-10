@@ -156,49 +156,7 @@
     }catch(_){}
   }
   document.addEventListener('DOMContentLoaded', mountSwitch);
-  /* v8 · UNIVERSAL boot rescue, whatever path started 3D, if the boot plate is
-     still up and no room committed after 10s, stop fighting it: retry 3D ONCE
-     per session (a transient stall), then hold the flat site so the visitor is
-     never left frozen at 90%. */
-  (function(){
-    var stalled = 0;
-    var iv = setInterval(function(){
-      try{
-        var bp = document.getElementById('g3boot');
-        var up = bp && !bp.hidden;
-        var committed = window.__g3on || (document.body && document.body.classList.contains('g3'));
-        if(committed){ stalled = 0; try{ sessionStorage.removeItem('__veaBootTry'); }catch(_){} return; }
-        if(!up){ stalled = 0; return; }
-        stalled++;
-        if(window.__vlog) window.__vlog('rescue: plate still up, no room (' + (stalled*3) + 's)');
-        if(stalled < 4) return;                        /* plate up ~12s with no room = a real stall */
-        clearInterval(iv);
-        var tr = 0; try{ tr = parseInt(sessionStorage.getItem('__veaBootTry') || '0', 10) || 0; }catch(_){}
-        if(tr < 1){ if(window.__vlog) window.__vlog('rescue: STALL · reloading once to retry 3D'); try{ sessionStorage.setItem('__veaBootTry', String(tr + 1)); }catch(_){} location.reload(); return; }
-        /* SOMEONE WHO CHOSE SPACE KEEPS SPACE. The second stall used to write
-           flat and replace the URL with ?no3d=1, which took a visitor who had
-           explicitly asked for the 3D gallery and handed them the flat page
-           instead. The only question a stall may answer is how RICH the room
-           is, full or lite, never whether it stays a room. So a space
-           visitor is pinned to the LITE tier and reloaded into it; only a
-           visitor who never chose space (or chose the page) falls flat. */
-        var chose3d = false;
-        try{ var vm = sessionStorage.getItem('veaMode'), lk = sessionStorage.getItem('g3lock');
-          chose3d = vm === 'immersive' || lk === 'full' || lk === 'lite'; }catch(_){}
-        try{ sessionStorage.removeItem('__veaBootTry'); }catch(_){}
-        if(chose3d){
-          if(window.__vlog) window.__vlog('rescue: 2nd stall · HOLDING SPACE, pinned to LITE');
-          try{ sessionStorage.setItem('g3q','lite'); sessionStorage.setItem('g3lock','lite');
-               sessionStorage.setItem('veaMode','immersive'); sessionStorage.setItem('veaAsked','1'); }catch(_){}
-          try{ var uL = new URL(location.href); uL.searchParams.delete('no3d'); location.replace(uL.toString()); }catch(_){ location.reload(); }
-          return;
-        }
-        if(window.__vlog) window.__vlog('rescue: 2nd stall · no space choice on record, FALLING TO FLAT');
-        try{ sessionStorage.setItem('g3q','flat'); sessionStorage.setItem('g3lock','flat'); sessionStorage.setItem('veaMode','print'); sessionStorage.setItem('veaAsked','1'); }catch(_){}
-        try{ var uR = new URL(location.href); uR.searchParams.set('no3d','1'); location.replace(uR.toString()); }catch(_){ location.reload(); }
-      }catch(_){}
-    }, 3000);
-  })();
+  /* The shared boot rescue in src/boot-rescue.js owns retries on every room page. */
   /* v8 · SPACE, IN PLACE: the choice tap IS the audio gesture, the context
      is born inside it, the engine re-arms, and the room injects into THIS
      page (the desktop door's own trick), no reload, sound at THAT instant. */
@@ -264,7 +222,7 @@
        boot stalled, reload once so the visitor never sits stuck at 90% */
     /* (the old 6s reload watchdog lived here, on a machine whose boot takes
        longer than 6s it reloaded MID-BOOT forever, pinning the plate at ~90%.
-       The universal rescue below owns stall handling now: one retry, then flat.) */
+       The shared rescue owns progress-aware, bounded stall handling now.) */
   };
   /* v8 · bfcache back-button: iOS can restore a space page with a DEAD WebGL
      context (a blank/flat-looking room). If we are space-locked but no room is
@@ -568,7 +526,7 @@
       var tot = [], got = [], kn = [], done = 0, sent = false;
       var go = function(){ if(sent) return; sent = true; if(window.__vlog) window.__vlog('gate: all chunks streamed → boot'); setPct(90); boot(); };
       for(var i=0;i<CH.length;i++){ tot[i]=0; got[i]=0; kn[i]=0; }
-      var bump = function(){ var T=0,G=0,any=false; for(var j=0;j<CH.length;j++){ if(kn[j]){ T+=tot[j]; G+=got[j]; any=true; } } if(any && T>0) setPct(Math.min(90, G/T*90)); };
+      var bump = function(){ if(window.__veaBootProgress) window.__veaBootProgress(); var T=0,G=0,any=false; for(var j=0;j<CH.length;j++){ if(kn[j]){ T+=tot[j]; G+=got[j]; any=true; } } if(any && T>0) setPct(Math.min(90, G/T*90)); };
       if(window.__vlog) window.__vlog('gate: streaming ' + CH.length + ' chunk(s)', CH.join(', '));
       CH.forEach(function(url, i){
         fetch(url).then(function(res){

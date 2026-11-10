@@ -1,5 +1,6 @@
 import configs from "./page-config.json";
 import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import { startBootRescue } from "./boot-rescue.js";
 
 let pdfLibrary;
 window.__loadLocalPdfJs = () => {
@@ -59,6 +60,7 @@ export async function dressPage(name) {
 export async function startPage(name) {
   // The procedural renderer owns only the canvas and its HUD. React owns
   // the initial editorial shell; the reference controllers populate media.
+  startBootRescue();
   const callbacks = [];
   const originalAdd = document.addEventListener;
   document.addEventListener = function (event, callback, options) {

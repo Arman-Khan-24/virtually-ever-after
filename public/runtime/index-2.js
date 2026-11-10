@@ -3,6 +3,7 @@
    the console by "VEA" to read the stage-by-stage timeline; the last line
    before a stall tells you exactly where it stopped. */
 window.__vlog = function(stage, extra){
+  if(window.__veaBootProgress && !/^rescue:|FAILED|ERROR|THREW|rejection|hang-guard|did NOT/.test(stage)) window.__veaBootProgress();
   try{ console.log('%c[VEA ' + Math.round(performance.now()) + 'ms] ' + stage +
     (extra != null ? ' · ' + extra : ''), 'color:#4cc2ff'); }catch(_){}
 };
